@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://bm6mt4o44my62"]
+[gd_scene load_steps=35 format=4 uid="uid://bm6mt4o44my62"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_arp2o"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_ux5qa"]
@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_7agi7"]
 [ext_resource type="Texture2D" uid="uid://cycwmkbccmg72" path="res://assets/sprites/level/walls/piedra-musgosa-completa.png" id="15_kih21"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_w3o6u"]
-[ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player.tscn" id="17_ux5qa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2e2fo"]
 texture = ExtResource("1_arp2o")
@@ -124,6 +123,3 @@ tile_set = SubResource("TileSet_0fmhk")
 position = Vector2(11, 4)
 tile_map_data = PackedByteArray("AAD7////BAAAAAAAAAD7/wAABAAAAAAAAAD7/wEABAAAAAAAAAD7/wIABAAAAAAAAAD7/wMABAAAAAAAAAD7/wQABAAAAAAAAAD7//7/BgAAAAAAAAD8//7/AwAAAAAAAAD9//7/AwAAAAAAAAD+//7/AwAAAAAAAAD///7/AwAAAAAAAAAAAP7/BwAAAAAAAAABAP7/CAAAAAAAAAAFAP7/BwAAAAAAAAAGAP7/BwAAAAAAAAACAP7/CAAAAAAAAAAHAP7/AwAAAAAAAAAIAP7/AwAAAAAAAAAJAP7/BwAAAAAAAAAKAP7/AwAAAAAAAAAKAP//BAAAAAAAAAAKAAAABAAAAAAAAAAKAAEABAAAAAAAAAAKAAIABgAAAAAAAAAKAAMABgAAAAAAAAAKAAQABAAAAAAAAAAKAAUABAAAAAAAAAAKAAYABAAAAAAAAAAKAAcABAAAAAAAAAAKAAgABAAAAAAAAAAJAAgABAAAAAAAAAAIAAgABAAAAAAAAAAHAAgABAAAAAAAAAAGAAgABAAAAAAAAAAEAAgABAAAAAAAAAADAAgABAAAAAAAAAACAAgABAAAAAAAAAABAAgABAAAAAAAAAAAAAgABAAAAAAAAAD+/wgABAAAAAAAAAD9/wgABAAAAAAAAAD8/wgABAAAAAAAAAD7/wgABAAAAAAAAAD7/wcABAAAAAAAAAD7/wYABAAAAAAAAAD7/wUABgAAAAAAAAD//wgABgAAAAAAAAAFAAgABgAAAAAAAAADAP7/CAAAAAAAAAAEAP7/CAAAAAAAAAA=")
 tile_set = SubResource("TileSet_j4eoh")
-
-[node name="Player" parent="." instance=ExtResource("17_ux5qa")]
-position = Vector2(-134, -34)
