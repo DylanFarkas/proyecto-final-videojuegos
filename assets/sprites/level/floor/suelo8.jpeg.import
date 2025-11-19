@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fqw63mvf18te"
-path="res://.godot/imported/candelabro.jpeg-4d49114b7bbe777431a4309587cd38aa.ctex"
+uid="uid://d041nykr6bvyo"
+path="res://.godot/imported/suelo8.jpeg-2fbffcac324ff1cf02df3abbe9b89f50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/decoration/candelabro.jpeg"
-dest_files=["res://.godot/imported/candelabro.jpeg-4d49114b7bbe777431a4309587cd38aa.ctex"]
+source_file="res://assets/sprites/level/floor/suelo8.jpeg"
+dest_files=["res://.godot/imported/suelo8.jpeg-2fbffcac324ff1cf02df3abbe9b89f50.ctex"]
 
 [params]
 

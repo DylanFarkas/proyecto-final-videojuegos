@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs5rh7dtdcnu6"
-path="res://.godot/imported/suelo4.jpeg-950638e9cef67b6e094a344373dc1d52.ctex"
+uid="uid://dvvuvtv2pirmq"
+path="res://.godot/imported/arbusto.png-c9d7e2b8080fef301a7486a43b2f08c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/suelo4.jpeg"
-dest_files=["res://.godot/imported/suelo4.jpeg-950638e9cef67b6e094a344373dc1d52.ctex"]
+source_file="res://assets/sprites/level/walls/arbusto.png"
+dest_files=["res://.godot/imported/arbusto.png-c9d7e2b8080fef301a7486a43b2f08c8.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqwf4k7jn6msu"
-path="res://.godot/imported/arbusto.jpeg-e3661223f5177243897e158542ffe5c4.ctex"
+uid="uid://cdt2hgyiqa6l1"
+path="res://.godot/imported/valla.png-d82ba575512be7c63ec55135cd464b69.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/walls/arbusto.jpeg"
-dest_files=["res://.godot/imported/arbusto.jpeg-e3661223f5177243897e158542ffe5c4.ctex"]
+source_file="res://assets/sprites/level/walls/valla.png"
+dest_files=["res://.godot/imported/valla.png-d82ba575512be7c63ec55135cd464b69.ctex"]
 
 [params]
 

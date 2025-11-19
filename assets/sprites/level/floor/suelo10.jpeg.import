@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7bvo3abocbjk"
-path="res://.godot/imported/suelo6.jpeg-9319598aa59899019faf32e08323ddbe.ctex"
+uid="uid://nfpafj4gywc8"
+path="res://.godot/imported/suelo10.jpeg-f25b621ba8391d1d72fa52f61a82bcd0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/suelo6.jpeg"
-dest_files=["res://.godot/imported/suelo6.jpeg-9319598aa59899019faf32e08323ddbe.ctex"]
+source_file="res://assets/sprites/level/floor/suelo10.jpeg"
+dest_files=["res://.godot/imported/suelo10.jpeg-f25b621ba8391d1d72fa52f61a82bcd0.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nfpafj4gywc8"
-path="res://.godot/imported/suelo10.jpeg-edff2343d0415490ac88f3f32c81e1a1.ctex"
+uid="uid://c314sltxa2tyy"
+path="res://.godot/imported/valla-completa.png-dc87d1993b9bcb4144a4e312cd9e9f59.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/suelo10.jpeg"
-dest_files=["res://.godot/imported/suelo10.jpeg-edff2343d0415490ac88f3f32c81e1a1.ctex"]
+source_file="res://assets/sprites/level/walls/valla-completa.png"
+dest_files=["res://.godot/imported/valla-completa.png-dc87d1993b9bcb4144a4e312cd9e9f59.ctex"]
 
 [params]
 
