@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://bm6mt4o44my62"]
+[gd_scene load_steps=36 format=4 uid="uid://bm6mt4o44my62"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_arp2o"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_ux5qa"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_7agi7"]
 [ext_resource type="Texture2D" uid="uid://cycwmkbccmg72" path="res://assets/sprites/level/walls/piedra-musgosa-completa.png" id="15_kih21"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_w3o6u"]
+[ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player.tscn" id="17_ux5qa"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2e2fo"]
 texture = ExtResource("1_arp2o")
@@ -73,10 +74,12 @@ sources/9 = SubResource("TileSetAtlasSource_50fbu")
 texture = ExtResource("11_xy2fk")
 texture_region_size = Vector2i(16, 24)
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.4191732, -11.474987, 7.913784, -11.277143, 7.221327, 10.78253, -6.825639, 10.386841)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cr74b"]
 texture = ExtResource("12_cmcjb")
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5.14396, -6.825639, 6.726715, -6.726717, 8, 7.0234833, -6.825639, 8, -6.2321053, -6.331028)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uhfbm"]
 texture = ExtResource("13_556r4")
@@ -87,17 +90,20 @@ texture_region_size = Vector2i(16, 32)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lqb7q"]
 texture = ExtResource("14_7agi7")
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7.2213287, 8, -7.0234833, 8, 8, -8, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ok3ci"]
 texture = ExtResource("15_kih21")
 texture_region_size = Vector2i(16, 24)
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.2213287, -11.57391, 7.617016, -11.17822, 8.111628, 11.672831, -6.9245615, 11.376064)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hv3ux"]
 texture = ExtResource("16_w3o6u")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_j4eoh"]
+physics_layer_0/collision_layer = 1
 sources/3 = SubResource("TileSetAtlasSource_iafhg")
 sources/4 = SubResource("TileSetAtlasSource_cr74b")
 sources/5 = SubResource("TileSetAtlasSource_uhfbm")
@@ -116,5 +122,8 @@ tile_set = SubResource("TileSet_0fmhk")
 
 [node name="Walls" type="TileMapLayer" parent="TilemapLayers"]
 position = Vector2(11, 4)
-tile_map_data = PackedByteArray("AAD7////BAAAAAAAAAD7/wAABAAAAAAAAAD7/wEABAAAAAAAAAD7/wIABAAAAAAAAAD7/wMABAAAAAAAAAD7/wQABAAAAAAAAAD7//7/BgAAAAAAAAD8//7/AwAAAAAAAAD9//7/AwAAAAAAAAD+//7/AwAAAAAAAAD///7/AwAAAAAAAAAAAP7/BwAAAAAAAAABAP7/CAAAAAAAAAADAP7/CAAAAAAAAAAEAP7/CAAAAAAAAAAFAP7/BwAAAAAAAAAGAP7/BwAAAAAAAAACAP7/CAAAAAAAAAAHAP7/AwAAAAAAAAAIAP7/AwAAAAAAAAAJAP7/BwAAAAAAAAAKAP7/AwAAAAAAAAAKAP//BAAAAAAAAAAKAAAABAAAAAAAAAAKAAEABAAAAAAAAAAKAAIABgAAAAAAAAAKAAMABgAAAAAAAAAKAAQABAAAAAAAAAAKAAUABAAAAAAAAAAKAAYABAAAAAAAAAAKAAcABAAAAAAAAAAKAAgABAAAAAAAAAAJAAgABAAAAAAAAAAIAAgABAAAAAAAAAAHAAgABAAAAAAAAAAGAAgABAAAAAAAAAAEAAgABAAAAAAAAAADAAgABAAAAAAAAAACAAgABAAAAAAAAAABAAgABAAAAAAAAAAAAAgABAAAAAAAAAD+/wgABAAAAAAAAAD9/wgABAAAAAAAAAD8/wgABAAAAAAAAAD7/wgABAAAAAAAAAD7/wcABAAAAAAAAAD7/wYABAAAAAAAAAD7/wUABgAAAAAAAAD//wgABgAAAAAAAAAFAAgABgAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD7////BAAAAAAAAAD7/wAABAAAAAAAAAD7/wEABAAAAAAAAAD7/wIABAAAAAAAAAD7/wMABAAAAAAAAAD7/wQABAAAAAAAAAD7//7/BgAAAAAAAAD8//7/AwAAAAAAAAD9//7/AwAAAAAAAAD+//7/AwAAAAAAAAD///7/AwAAAAAAAAAAAP7/BwAAAAAAAAABAP7/CAAAAAAAAAAFAP7/BwAAAAAAAAAGAP7/BwAAAAAAAAACAP7/CAAAAAAAAAAHAP7/AwAAAAAAAAAIAP7/AwAAAAAAAAAJAP7/BwAAAAAAAAAKAP7/AwAAAAAAAAAKAP//BAAAAAAAAAAKAAAABAAAAAAAAAAKAAEABAAAAAAAAAAKAAIABgAAAAAAAAAKAAMABgAAAAAAAAAKAAQABAAAAAAAAAAKAAUABAAAAAAAAAAKAAYABAAAAAAAAAAKAAcABAAAAAAAAAAKAAgABAAAAAAAAAAJAAgABAAAAAAAAAAIAAgABAAAAAAAAAAHAAgABAAAAAAAAAAGAAgABAAAAAAAAAAEAAgABAAAAAAAAAADAAgABAAAAAAAAAACAAgABAAAAAAAAAABAAgABAAAAAAAAAAAAAgABAAAAAAAAAD+/wgABAAAAAAAAAD9/wgABAAAAAAAAAD8/wgABAAAAAAAAAD7/wgABAAAAAAAAAD7/wcABAAAAAAAAAD7/wYABAAAAAAAAAD7/wUABgAAAAAAAAD//wgABgAAAAAAAAAFAAgABgAAAAAAAAADAP7/CAAAAAAAAAAEAP7/CAAAAAAAAAA=")
 tile_set = SubResource("TileSet_j4eoh")
+
+[node name="Player" parent="." instance=ExtResource("17_ux5qa")]
+position = Vector2(-134, -34)
