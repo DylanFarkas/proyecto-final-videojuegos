@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hyjblixmx5en"
-path="res://.godot/imported/presonaje.jpeg-2afc3c6b59b19b73c15d9bb334d8cc28.ctex"
+uid="uid://cbkhlle0h3iyf"
+path="res://.godot/imported/pixilart-sprite idle.png-e2a702a324e5e8dc518594d085add375.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/presonaje.jpeg"
-dest_files=["res://.godot/imported/presonaje.jpeg-2afc3c6b59b19b73c15d9bb334d8cc28.ctex"]
+source_file="res://assets/sprites/player/pixilart-sprite idle.png"
+dest_files=["res://.godot/imported/pixilart-sprite idle.png-e2a702a324e5e8dc518594d085add375.ctex"]
 
 [params]
 
