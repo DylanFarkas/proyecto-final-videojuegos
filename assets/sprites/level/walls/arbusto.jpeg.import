@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpnp2usp7bry4"
-path="res://.godot/imported/muro-completo.jpeg-41da44319b55923109b1b0abd75c7760.ctex"
+uid="uid://bqwf4k7jn6msu"
+path="res://.godot/imported/arbusto.jpeg-e3661223f5177243897e158542ffe5c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/muro-completo.jpeg"
-dest_files=["res://.godot/imported/muro-completo.jpeg-41da44319b55923109b1b0abd75c7760.ctex"]
+source_file="res://assets/sprites/level/walls/arbusto.jpeg"
+dest_files=["res://.godot/imported/arbusto.jpeg-e3661223f5177243897e158542ffe5c4.ctex"]
 
 [params]
 

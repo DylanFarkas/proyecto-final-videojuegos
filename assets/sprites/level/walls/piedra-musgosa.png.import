@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ij6xfy5bgl3s"
-path="res://.godot/imported/piedra-musgosa.png-9f03a4e39d1bbd6dc195957420e8a8c4.ctex"
+path="res://.godot/imported/piedra-musgosa.png-5f3c128e682cac6ac41ef245a4851652.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/piedra-musgosa.png"
-dest_files=["res://.godot/imported/piedra-musgosa.png-9f03a4e39d1bbd6dc195957420e8a8c4.ctex"]
+source_file="res://assets/sprites/level/walls/piedra-musgosa.png"
+dest_files=["res://.godot/imported/piedra-musgosa.png-5f3c128e682cac6ac41ef245a4851652.ctex"]
 
 [params]
 
