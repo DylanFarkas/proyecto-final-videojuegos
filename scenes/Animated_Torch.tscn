@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccxgn1voxx7jn"]
+
+[ext_resource type="Texture2D" uid="uid://ba3pxywrv06ct" path="res://assets/sprites/level/decoration/candelabro.png" id="1_dw7mk"]
+[ext_resource type="Script" uid="uid://fj1axvxag2s8" path="res://animated_sprite_2d.gd" id="2_t2w1a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0w87"]
+atlas = ExtResource("1_dw7mk")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krnit"]
+atlas = ExtResource("1_dw7mk")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma48p"]
+atlas = ExtResource("1_dw7mk")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_24lh1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0w87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krnit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma48p")
+}],
+"loop": true,
+"name": &"Torch",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ap6vv"]
+size = Vector2(16, 32)
+
+[node name="StaticBody2D" type="StaticBody2D"]
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_24lh1")
+animation = &"Torch"
+frame_progress = 0.28227943
+script = ExtResource("2_t2w1a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_ap6vv")
