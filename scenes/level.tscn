@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://bm6mt4o44my62"]
+[gd_scene load_steps=37 format=4 uid="uid://bcpgyqs38wxiy"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_arp2o"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_ux5qa"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cycwmkbccmg72" path="res://assets/sprites/level/walls/piedra-musgosa-completa.png" id="15_kih21"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_w3o6u"]
 [ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player.tscn" id="17_ux5qa"]
+[ext_resource type="PackedScene" uid="uid://ccxgn1voxx7jn" path="res://scenes/Animated_Torch.tscn" id="18_82cfe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2e2fo"]
 texture = ExtResource("1_arp2o")
@@ -127,3 +128,9 @@ tile_set = SubResource("TileSet_j4eoh")
 
 [node name="Player" parent="." instance=ExtResource("17_ux5qa")]
 position = Vector2(-134, -34)
+
+[node name="StaticBody2D" parent="." instance=ExtResource("18_82cfe")]
+position = Vector2(7, -10)
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("18_82cfe")]
+position = Vector2(99, -11)
