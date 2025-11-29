@@ -112,7 +112,7 @@ sources/6 = SubResource("TileSetAtlasSource_lqb7q")
 sources/7 = SubResource("TileSetAtlasSource_ok3ci")
 sources/8 = SubResource("TileSetAtlasSource_hv3ux")
 
-[node name="Level" type="Node2D"]
+[node name="Start" type="Node2D"]
 position = Vector2(77, 32)
 
 [node name="TilemapLayers" type="Node2D" parent="."]
