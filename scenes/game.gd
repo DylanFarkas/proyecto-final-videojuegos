@@ -1,14 +1,15 @@
 extends Node2D
 
-# --- ESCENAS A CONFIGURAR DESDE EL INSPECTOR ---
+@export var start_room_scene: PackedScene            # Room_Start.tscn
+@export var vertical_corridor_scene: PackedScene     # pasillo_vertical.tscn
+@export var horizontal_corridor_scene: PackedScene   # pasillo_horizontal.tscn
+@export var room_scenes: Array[PackedScene] = []     # SOLO rooms: Room_1, Room_2, ...
 
-@export var start_room_scene: PackedScene          # Room_Start.tscn
-@export var vertical_corridor_scene: PackedScene   # pasillo_vertical.tscn
-@export var room_scenes: Array[PackedScene] = []   # Room_1, Room_2, pasillos, etc.
-@export var player_scene: PackedScene              # player.tscn
+@export var player_scene: PackedScene
 
-@export var max_rooms: int = 8                     # salas totales (contando start y pasillo)
-@export var room_size: Vector2 = Vector2(512, 512) # tamaño de cada "casilla" en píxeles
+@export var max_rooms: int = 8
+@export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
+
 
 # --- ESTADO INTERNO ---
 
@@ -34,38 +35,77 @@ func generate_dungeon() -> void:
 	var start_room := _instance_room(start_room_scene, start_pos)
 	grid[start_pos] = start_room
 
-	# 2) Pasillo vertical arriba de la sala de inicio → (0, -1)
+	# 2) Pasillo fijo arriba de la sala de inicio → (0, -1)
 	var corridor_pos := start_pos + Vector2i(0, -1)
-	var corridor := _instance_room(vertical_corridor_scene, corridor_pos)
-	grid[corridor_pos] = corridor
+	var first_corridor := _instance_room(vertical_corridor_scene, corridor_pos)
+	if first_corridor != null:
+		grid[corridor_pos] = first_corridor
 
 	# 3) Primera sala "real" arriba del pasillo → (0, -2)
 	var first_room_pos := corridor_pos + Vector2i(0, -1)
 	var first_room_scene := _random_room_scene()
 	var first_room := _instance_room(first_room_scene, first_room_pos)
-	grid[first_room_pos] = first_room
+	if first_room != null:
+		grid[first_room_pos] = first_room
+	else:
+		return  # sin primera sala no hay nada más que hacer
 
-	# A partir de aquí seguimos generando a partir de esa primera sala
-	var current_pos := first_room_pos
+	# Lista de salas desde las que podemos seguir ramificando
+	var frontier: Array[Vector2i] = [first_room_pos]
+	var rooms_created := 2  # start + first_room
+	var safety := 0
 
-	# Ya hemos colocado 3 piezas (start, pasillo, first_room)
-	var remaining := max_rooms - 3
-	for i in range(remaining):
+	# 4) Generar más salas, siempre sala - pasillo - sala
+	while rooms_created < max_rooms and safety < 300:
+		safety += 1
+
+		if frontier.is_empty():
+			break
+
+		# Elegimos una sala aleatoria de la frontera
+		var base_index := rng.randi_range(0, frontier.size() - 1)
+		var base_pos: Vector2i = frontier[base_index]
+
 		var dir := _random_direction()
-		var next_pos := current_pos + dir
 
-		# si ya hay algo en esa casilla, saltamos
-		if grid.has(next_pos):
+		# No generamos por debajo de la sala inicial (y > 0)
+		var corridor_candidate := base_pos + dir
+		var room_candidate := base_pos + dir * 2
+		if room_candidate.y > 0:
 			continue
 
-		var scene := _random_room_scene()
-		var room := _instance_room(scene, next_pos)
-		grid[next_pos] = room
-		current_pos = next_pos
+		# Si hay algo en medio o en el destino, no usamos esa dirección
+		if grid.has(corridor_candidate) or grid.has(room_candidate):
+			continue
 
-	# 4) Configurar qué puertas se abren según vecinos
+		# Elegir pasillo vertical u horizontal
+		var corridor_scene: PackedScene = vertical_corridor_scene
+		if dir.x != 0:
+			corridor_scene = horizontal_corridor_scene
+
+		# Instanciar pasillo
+		var corridor_inst := _instance_room(corridor_scene, corridor_candidate)
+		if corridor_inst == null:
+			continue
+		grid[corridor_candidate] = corridor_inst
+
+		# Instanciar nueva sala
+		var room_scene := _random_room_scene()
+		var room_inst := _instance_room(room_scene, room_candidate)
+		if room_inst == null:
+			# limpiamos el pasillo que no lleva a ningún lado
+			grid.erase(corridor_candidate)
+			corridor_inst.queue_free()
+			continue
+
+		grid[room_candidate] = room_inst
+
+		# Actualizamos contador y frontera
+		rooms_created += 1
+		frontier.append(room_candidate)
+
 	_configure_all_exits()
-	print("Salas generadas: ", grid.size())
+	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
 
 func _instance_room(scene: PackedScene, grid_pos: Vector2i) -> Node2D:
@@ -76,15 +116,8 @@ func _instance_room(scene: PackedScene, grid_pos: Vector2i) -> Node2D:
 	var room := scene.instantiate()
 	add_child(room)
 
-	# posición en el mundo
 	room.position = Vector2(grid_pos) * room_size
-
-	# OJO: por ahora NO tocamos grid_position
-	# room.grid_position = grid_pos  # <-- QUÍTALO / COMÉNTALO
-
 	return room
-
-
 
 
 func _random_room_scene() -> PackedScene:
@@ -104,10 +137,11 @@ func _random_direction() -> Vector2i:
 	]
 	return dirs[rng.randi_range(0, dirs.size() - 1)]
 
-
 func _configure_all_exits() -> void:
 	for pos in grid.keys():
 		var room = grid[pos]
+		if room == null:
+			continue
 
 		var up    := grid.has(pos + Vector2i(0, -1))
 		var down  := grid.has(pos + Vector2i(0,  1))

@@ -114,10 +114,10 @@ size = Vector2(77, 28)
 size = Vector2(78, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brh18"]
-size = Vector2(17, 66)
+size = Vector2(14, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v1oy"]
-size = Vector2(16, 68.5)
+size = Vector2(13, 71)
 
 [node name="Room_Base" type="Node2D"]
 script = ExtResource("1_vh3rr")
