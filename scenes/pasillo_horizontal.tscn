@@ -1,0 +1,117 @@
+[gd_scene load_steps=35 format=4 uid="uid://bm52etpoumhy7"]
+
+[ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_xbowe"]
+[ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_fg7du"]
+[ext_resource type="Texture2D" uid="uid://cyb4tnjjq18mu" path="res://assets/sprites/level/floor/suelo3.jpeg" id="3_rxa77"]
+[ext_resource type="Texture2D" uid="uid://cs5rh7dtdcnu6" path="res://assets/sprites/level/floor/suelo4.jpeg" id="4_0vncf"]
+[ext_resource type="Texture2D" uid="uid://b08uiexrj2oac" path="res://assets/sprites/level/floor/suelo5.jpeg" id="5_bxtr1"]
+[ext_resource type="Texture2D" uid="uid://c7bvo3abocbjk" path="res://assets/sprites/level/floor/suelo6.jpeg" id="6_ts5od"]
+[ext_resource type="Texture2D" uid="uid://vo6jn5kjyxry" path="res://assets/sprites/level/floor/suelo7.jpeg" id="7_mh7jq"]
+[ext_resource type="Texture2D" uid="uid://d041nykr6bvyo" path="res://assets/sprites/level/floor/suelo8.jpeg" id="8_qg1gh"]
+[ext_resource type="Texture2D" uid="uid://niyfhulq1qcs" path="res://assets/sprites/level/floor/suelo9.jpeg" id="9_062pl"]
+[ext_resource type="Texture2D" uid="uid://nfpafj4gywc8" path="res://assets/sprites/level/floor/suelo10.jpeg" id="10_gjnh7"]
+[ext_resource type="Texture2D" uid="uid://cqlgwkcap153j" path="res://assets/sprites/level/walls/arbusto-completo.png" id="11_ijj8k"]
+[ext_resource type="Texture2D" uid="uid://dvvuvtv2pirmq" path="res://assets/sprites/level/walls/arbusto.png" id="12_wxwhm"]
+[ext_resource type="Texture2D" uid="uid://cycwmkbccmg72" path="res://assets/sprites/level/walls/piedra-musgosa-completa.png" id="13_81g7m"]
+[ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_6e0eq"]
+[ext_resource type="Texture2D" uid="uid://c314sltxa2tyy" path="res://assets/sprites/level/walls/valla-completa.png" id="15_ikdi8"]
+[ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_c8yw8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2i7i0"]
+texture = ExtResource("1_xbowe")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hb3nn"]
+texture = ExtResource("2_fg7du")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qah56"]
+texture = ExtResource("3_rxa77")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_am5gt"]
+texture = ExtResource("4_0vncf")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yxmbf"]
+texture = ExtResource("5_bxtr1")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kqd4r"]
+texture = ExtResource("6_ts5od")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f47ak"]
+texture = ExtResource("7_mh7jq")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nd2bo"]
+texture = ExtResource("8_qg1gh")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bfr3u"]
+texture = ExtResource("9_062pl")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mw7ds"]
+texture = ExtResource("10_gjnh7")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_0cyiy"]
+sources/0 = SubResource("TileSetAtlasSource_2i7i0")
+sources/1 = SubResource("TileSetAtlasSource_hb3nn")
+sources/2 = SubResource("TileSetAtlasSource_qah56")
+sources/3 = SubResource("TileSetAtlasSource_am5gt")
+sources/4 = SubResource("TileSetAtlasSource_yxmbf")
+sources/5 = SubResource("TileSetAtlasSource_kqd4r")
+sources/6 = SubResource("TileSetAtlasSource_f47ak")
+sources/7 = SubResource("TileSetAtlasSource_nd2bo")
+sources/8 = SubResource("TileSetAtlasSource_bfr3u")
+sources/9 = SubResource("TileSetAtlasSource_mw7ds")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tqmpw"]
+texture = ExtResource("11_ijj8k")
+texture_region_size = Vector2i(16, 24)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s4udi"]
+texture = ExtResource("12_wxwhm")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h4vyc"]
+texture = ExtResource("13_81g7m")
+texture_region_size = Vector2i(16, 24)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1iifs"]
+texture = ExtResource("14_6e0eq")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g18mj"]
+texture = ExtResource("15_ikdi8")
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eyvqo"]
+texture = ExtResource("16_c8yw8")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cwwpw"]
+sources/0 = SubResource("TileSetAtlasSource_tqmpw")
+sources/1 = SubResource("TileSetAtlasSource_s4udi")
+sources/2 = SubResource("TileSetAtlasSource_h4vyc")
+sources/3 = SubResource("TileSetAtlasSource_1iifs")
+sources/4 = SubResource("TileSetAtlasSource_g18mj")
+sources/5 = SubResource("TileSetAtlasSource_eyvqo")
+
+[node name="pasillo_horizontal" type="Node2D"]
+
+[node name="TilemapLayers" type="Node2D" parent="."]
+
+[node name="Floor" type="TileMapLayer" parent="TilemapLayers"]
+tile_map_data = PackedByteArray("AAABAAcAAAAAAAAAAAACAAcAAwAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAgAAAAAAAAAAAABAAgAAQAAAAAAAAACAAgAAgAAAAAAAAADAAgAAQAAAAAAAAADAAkAAgAAAAAAAAACAAkAAwAAAAAAAAABAAkAAwAAAAAAAAAEAAkAAwAAAAAAAAAFAAkAAgAAAAAAAAAGAAkAAgAAAAAAAAAHAAkAAgAAAAAAAAAIAAkAAwAAAAAAAAAJAAkAAwAAAAAAAAAKAAkABQAAAAAAAAALAAkABQAAAAAAAAAMAAkABQAAAAAAAAANAAkABQAAAAAAAAAOAAkABQAAAAAAAAAPAAkAAwAAAAAAAAAOAAgABQAAAAAAAAAPAAgABQAAAAAAAAAPAAcABQAAAAAAAAAOAAcAAwAAAAAAAAANAAcAAwAAAAAAAAAMAAcAAwAAAAAAAAALAAcABgAAAAAAAAAKAAcABgAAAAAAAAAJAAcABgAAAAAAAAAIAAcABgAAAAAAAAAHAAcAAwAAAAAAAAAGAAcAAAAAAAAAAAAFAAcAAwAAAAAAAAAFAAgAAwAAAAAAAAAGAAgAAAAAAAAAAAAHAAgACAAAAAAAAAAIAAgACAAAAAAAAAAJAAgAAwAAAAAAAAAKAAgAAwAAAAAAAAALAAgABgAAAAAAAAAMAAgAAwAAAAAAAAANAAgAAwAAAAAAAAAQAAcABQAAAAAAAAAQAAgABQAAAAAAAAAQAAkABQAAAAAAAAACAAoAAwAAAAAAAAABAAoABgAAAAAAAAADAAoAAAAAAAAAAAAEAAoAAQAAAAAAAAAFAAoAAQAAAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAIAAoAAwAAAAAAAAAJAAoAAwAAAAAAAAAKAAoAAwAAAAAAAAALAAoAAwAAAAAAAAAMAAoAAwAAAAAAAAANAAoAAwAAAAAAAAAOAAoAAwAAAAAAAAAPAAoAAwAAAAAAAAAQAAoAAwAAAAAAAAA=")
+tile_set = SubResource("TileSet_0cyiy")
+
+[node name="Walls" type="TileMapLayer" parent="TilemapLayers"]
+tile_map_data = PackedByteArray("AAABAAYAAgAAAAAAAAAGAAYAAgAAAAAAAAAHAAYAAgAAAAAAAAAIAAYAAgAAAAAAAAAMAAYAAgAAAAAAAAAPAAYAAgAAAAAAAAACAAYAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAJAAYAAAAAAAAAAAAKAAYAAAAAAAAAAAALAAYAAAAAAAAAAAAOAAYAAAAAAAAAAAANAAYAAAAAAAAAAAABAAsAAgAAAAAAAAACAAsAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAsAAgAAAAAAAAAFAAsAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAsAAgAAAAAAAAALAAsAAgAAAAAAAAAMAAsAAAAAAAAAAAANAAsAAAAAAAAAAAAOAAsAAgAAAAAAAAAPAAsAAAAAAAAAAAAQAAYAAgAAAAAAAAAQAAsAAgAAAAAAAAA=")
+tile_set = SubResource("TileSet_cwwpw")
