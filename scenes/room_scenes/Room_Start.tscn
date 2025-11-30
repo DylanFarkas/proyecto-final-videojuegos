@@ -19,3 +19,6 @@ position = Vector2(87, 15)
 
 [node name="StaticBody2D2" parent="." index="3" instance=ExtResource("2_i5arh")]
 position = Vector2(185, 15)
+
+[node name="SpawnPoint" type="Marker2D" parent="." index="4"]
+position = Vector2(132, 151)
