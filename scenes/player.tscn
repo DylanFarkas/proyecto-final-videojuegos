@@ -245,10 +245,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(20, 26)
+size = Vector2(16, 21)
 
-[node name="Player" type="CharacterBody2D"]
-position = Vector2(-12, 3)
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(10, 29)
 script = ExtResource("1_g2els")
 metadata/_edit_group_ = true
 
@@ -259,7 +259,7 @@ autoplay = "idle_down"
 frame_progress = 0.7381049
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2(-2, -8.5)
 shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Camera2D" type="Camera2D" parent="."]

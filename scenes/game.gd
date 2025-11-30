@@ -6,16 +6,17 @@ extends Node2D
 @export var room_scenes: Array[PackedScene] = []     # SOLO rooms: Room_1, Room_2, ...
 
 @export var player_scene: PackedScene
+@export var enemy_scene : PackedScene
+
+@export var enemies_per_room: int = 1
 
 @export var max_rooms: int = 5
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
-
-# --- ESTADO INTERNO ---
-
 var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
 var player: Node2D = null
+
 
 func _ready() -> void:
 	rng.randomize()
@@ -30,83 +31,160 @@ func _ready() -> void:
 func generate_dungeon() -> void:
 	grid.clear()
 
-	# 1) Sala de inicio en (0, 0)
 	var start_pos := Vector2i(0, 0)
 	var start_room := _instance_room(start_room_scene, start_pos)
 	grid[start_pos] = start_room
 
-	# 2) Pasillo fijo arriba de la sala de inicio → (0, -1)
 	var corridor_pos := start_pos + Vector2i(0, -1)
 	var first_corridor := _instance_room(vertical_corridor_scene, corridor_pos)
 	if first_corridor != null:
 		grid[corridor_pos] = first_corridor
 
-	# 3) Primera sala "real" arriba del pasillo → (0, -2)
 	var first_room_pos := corridor_pos + Vector2i(0, -1)
 	var first_room_scene := _random_room_scene()
 	var first_room := _instance_room(first_room_scene, first_room_pos)
 	if first_room != null:
 		grid[first_room_pos] = first_room
 	else:
-		return  # sin primera sala no hay nada más que hacer
+		return
 
-	# Lista de salas desde las que podemos seguir ramificando
 	var frontier: Array[Vector2i] = [first_room_pos]
-	var rooms_created := 2  # start + first_room
+	var rooms_created := 2
 	var safety := 0
 
-	# 4) Generar más salas, siempre sala - pasillo - sala
 	while rooms_created < max_rooms and safety < 300:
 		safety += 1
 
 		if frontier.is_empty():
 			break
 
-		# Elegimos una sala aleatoria de la frontera
 		var base_index := rng.randi_range(0, frontier.size() - 1)
 		var base_pos: Vector2i = frontier[base_index]
 
 		var dir := _random_direction()
 
-		# No generamos por debajo de la sala inicial (y > 0)
 		var corridor_candidate := base_pos + dir
 		var room_candidate := base_pos + dir * 2
 		if room_candidate.y > 0:
 			continue
 
-		# Si hay algo en medio o en el destino, no usamos esa dirección
 		if grid.has(corridor_candidate) or grid.has(room_candidate):
 			continue
 
-		# Elegir pasillo vertical u horizontal
 		var corridor_scene: PackedScene = vertical_corridor_scene
 		if dir.x != 0:
 			corridor_scene = horizontal_corridor_scene
 
-		# Instanciar pasillo
 		var corridor_inst := _instance_room(corridor_scene, corridor_candidate)
 		if corridor_inst == null:
 			continue
 		grid[corridor_candidate] = corridor_inst
 
-		# Instanciar nueva sala
 		var room_scene := _random_room_scene()
 		var room_inst := _instance_room(room_scene, room_candidate)
 		if room_inst == null:
-			# limpiamos el pasillo que no lleva a ningún lado
 			grid.erase(corridor_candidate)
 			corridor_inst.queue_free()
 			continue
 
 		grid[room_candidate] = room_inst
-
-		# Actualizamos contador y frontera
 		rooms_created += 1
 		frontier.append(room_candidate)
 
 	_configure_all_exits()
+
+	# spawn enemigos AHORA
+	_spawn_enemies_all_rooms()
+
+	# debug
+	debug_list_enemies_after_spawn()
+
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
+
+
+# ========================
+#     ENEMIGOS (FIX TOTAL)
+# ========================
+
+func _spawn_enemies_all_rooms():
+	if enemy_scene == null:
+		return
+
+	var total_spawned := 0
+
+	for pos in grid.keys():
+		var cell = grid[pos]
+		if cell == null:
+			continue
+
+		if "corridor" in cell.name.to_lower():
+			continue
+
+		if pos == Vector2i(0,0):  # sala inicial no
+			continue
+
+		var spawned = spawn_enemies_in_room(cell, enemies_per_room)
+		total_spawned += spawned
+
+
+
+
+func spawn_enemies_in_room(room: Node2D, amount: int) -> int:
+	if enemy_scene == null:
+		return 0
+
+	var spawned := 0
+
+	var margin := 16
+	var min_x := margin
+	var min_y := margin
+	var max_x := room_size.x - margin
+	var max_y := room_size.y - margin
+
+	for i in range(amount):
+		var enemy = enemy_scene.instantiate()
+		if enemy == null:
+			continue
+
+		# MUY IMPORTANTE: agregarlo directamente al Game
+		add_child(enemy)
+
+		# posición local dentro de room convertida a global
+		var lx = rng.randf_range(min_x, max_x)
+		var ly = rng.randf_range(min_y, max_y)
+		var global_pos := room.global_position + Vector2(lx, ly)
+
+		enemy.global_position = global_pos
+
+		# asegurar visibilidad
+		if enemy is CanvasItem:
+			enemy.z_index = 50
+
+
+		spawned += 1
+
+	return spawned
+
+
+
+func debug_list_enemies_after_spawn():
+	print("---- DEBUG ENEMIES ----")
+	var count := 0
+	for c in get_children():
+		if c == null:
+			continue
+		var n := c.name.to_lower()
+		if "enemy" in n or c is CharacterBody2D:
+			print("Enemy:", c, " pos:", c.global_position)
+			count += 1
+	print("Total enemigos detectados:", count)
+
+
+
+# ========================
+# CONFIGURACIÓN DE SALAS
+# ========================
 
 func _instance_room(scene: PackedScene, grid_pos: Vector2i) -> Node2D:
 	if scene == null:
@@ -137,6 +215,7 @@ func _random_direction() -> Vector2i:
 	]
 	return dirs[rng.randi_range(0, dirs.size() - 1)]
 
+
 func _configure_all_exits() -> void:
 	for pos in grid.keys():
 		var room = grid[pos]
@@ -152,8 +231,9 @@ func _configure_all_exits() -> void:
 			room.configure_exits(up, down, left, right)
 
 
+
 # ========================
-#   PLAYER
+#         PLAYER
 # ========================
 
 func spawn_player() -> void:
@@ -164,7 +244,6 @@ func spawn_player() -> void:
 	player = player_scene.instantiate()
 	add_child(player)
 
-	# Buscar la sala de inicio en (0,0)
 	var start_room: Node2D = grid.get(Vector2i(0, 0), null)
 	if start_room == null:
 		push_error("No se encontró la sala de inicio en la grid.")
@@ -174,4 +253,4 @@ func spawn_player() -> void:
 	if spawn:
 		player.global_position = spawn.global_position
 	else:
-		player.position = start_room.position
+		player.global_position = start_room.global_position + room_size * 0.5
