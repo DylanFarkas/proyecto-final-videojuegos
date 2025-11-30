@@ -1,6 +1,7 @@
-[gd_scene load_steps=39 format=4 uid="uid://b6unn0d0ctgbg"]
+[gd_scene load_steps=41 format=4 uid="uid://dvt3eetokteon"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_3ghvb"]
+[ext_resource type="Script" uid="uid://c2eg5r38j7yd4" path="res://scenes/room_scenes/room_base.gd" id="1_vh3rr"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_vh3rr"]
 [ext_resource type="Texture2D" uid="uid://cyb4tnjjq18mu" path="res://assets/sprites/level/floor/suelo3.jpeg" id="3_kv40q"]
 [ext_resource type="Texture2D" uid="uid://cs5rh7dtdcnu6" path="res://assets/sprites/level/floor/suelo4.jpeg" id="4_0oo38"]
@@ -16,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_g3wjx"]
 [ext_resource type="Texture2D" uid="uid://c314sltxa2tyy" path="res://assets/sprites/level/walls/valla-completa.png" id="15_wqtfv"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_ffh7f"]
+[ext_resource type="Script" uid="uid://qtai8y3pbjsx" path="res://scenes/Door.gd" id="18_kv40q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5hbeb"]
 texture = ExtResource("1_3ghvb")
@@ -117,7 +119,8 @@ size = Vector2(17, 66)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v1oy"]
 size = Vector2(16, 68.5)
 
-[node name="Room_Base" type="Node2D"]
+[node name="Room_Base2" type="Node2D"]
+script = ExtResource("1_vh3rr")
 
 [node name="TilemapLayers" type="Node2D" parent="."]
 
@@ -132,24 +135,32 @@ tile_set = SubResource("TileSet_brh18")
 [node name="Doors" type="Node2D" parent="."]
 
 [node name="Door_N" type="Area2D" parent="Doors"]
+script = ExtResource("18_kv40q")
+direction = Vector2i(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_N"]
 position = Vector2(136, 8)
 shape = SubResource("RectangleShape2D_dhf37")
 
 [node name="Door_S" type="Area2D" parent="Doors"]
+script = ExtResource("18_kv40q")
+direction = Vector2i(0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_S"]
 position = Vector2(135, 265)
 shape = SubResource("RectangleShape2D_c8u8o")
 
 [node name="Door_E" type="Area2D" parent="Doors"]
+script = ExtResource("18_kv40q")
+direction = Vector2i(1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_E"]
 position = Vector2(263.5, 126)
 shape = SubResource("RectangleShape2D_brh18")
 
 [node name="Door_W" type="Area2D" parent="Doors"]
+script = ExtResource("18_kv40q")
+direction = Vector2i(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_W"]
 position = Vector2(8, 125.75)

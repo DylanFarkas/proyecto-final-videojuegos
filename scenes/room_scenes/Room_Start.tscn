@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bcpgyqs38wxiy"]
+[gd_scene load_steps=37 format=4 uid="uid://bcpgyqs38wxiy"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_rntsa"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_2nx5t"]
@@ -16,7 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_yj1kv"]
 [ext_resource type="Texture2D" uid="uid://cycwmkbccmg72" path="res://assets/sprites/level/walls/piedra-musgosa-completa.png" id="15_tthkv"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_1f3vm"]
-[ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player.tscn" id="17_rudjg"]
 [ext_resource type="PackedScene" uid="uid://ccxgn1voxx7jn" path="res://scenes/Animated_Torch.tscn" id="18_vhy86"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2e2fo"]
@@ -116,7 +115,6 @@ sources/8 = SubResource("TileSetAtlasSource_hv3ux")
 size = Vector2(65, 17)
 
 [node name="Start" type="Node2D"]
-position = Vector2(77, 32)
 
 [node name="TilemapLayers" type="Node2D" parent="."]
 
@@ -136,9 +134,6 @@ tile_set = SubResource("TileSet_j4eoh")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door/Door_N"]
 position = Vector2(58.5, -20.5)
 shape = SubResource("RectangleShape2D_h3myt")
-
-[node name="Player" parent="." instance=ExtResource("17_rudjg")]
-position = Vector2(-134, -34)
 
 [node name="StaticBody2D" parent="." instance=ExtResource("18_vhy86")]
 position = Vector2(7, -10)
