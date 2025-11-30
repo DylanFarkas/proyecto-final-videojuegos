@@ -9,9 +9,11 @@ extends Node2D
 @export var enemy_scene : PackedScene
 
 @export var enemies_per_room: int = 1
+@export var enemy_spawn_delay: float = 3   # segundos de retraso antes de spawnear
 
 @export var max_rooms: int = 5
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
+var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
 
 var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
@@ -94,13 +96,71 @@ func generate_dungeon() -> void:
 	_configure_all_exits()
 
 	# spawn enemigos AHORA
-	_spawn_enemies_all_rooms()
+	#_spawn_enemies_all_rooms()
 
 	# debug
-	debug_list_enemies_after_spawn()
+	#debug_list_enemies_after_spawn()
 
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
+func _get_room_grid_pos(room: Node2D) -> Vector2i:
+	for pos in grid.keys():
+		if grid[pos] == room:
+			return pos
+	push_warning("Room no encontrada en grid, devolviendo (0, 0)")
+	return Vector2i(0, 0)
+
+func _should_spawn_enemies_here(room: Node2D, pos: Vector2i) -> bool:
+	# No spawnear en pasillos (marcados con el grupo "corridor")
+	if room.is_in_group("corridor"):
+		return false
+
+	# No spawnear en la sala inicial
+	if pos == Vector2i(0, 0):
+		return false
+
+	# No repetir en salas visitadas
+	if rooms_with_enemies_spawned.get(pos, false):
+		return false
+
+	return true
+
+func on_player_use_door(current_room: Node2D, direction: Vector2i, body: Node) -> void:
+	if body != player:
+		return
+
+	var current_pos := _get_room_grid_pos(current_room)
+	var target_pos := current_pos + direction
+
+	if not grid.has(target_pos):
+		print("No hay sala en dirección ", direction, " desde ", current_pos)
+		return
+
+	var target_room: Node2D = grid[target_pos]
+
+	# Solo salas válidas y que aún no hayan sido usadas
+	if _should_spawn_enemies_here(target_room, target_pos):
+		# Marcamos de una vez que esta sala ya fue "procesada"
+		rooms_with_enemies_spawned[target_pos] = true
+		_spawn_enemies_after_delay(target_room, target_pos)
+
+
+func _spawn_enemies_after_delay(room: Node2D, pos: Vector2i) -> void:
+	# Esperar X segundos
+	await get_tree().create_timer(enemy_spawn_delay).timeout
+
+	# Por si la sala fue borrada o algo raro
+	if not is_instance_valid(room):
+		return
+
+	# (Opcional) si quieres ser más estricto: solo spawnear si el player sigue en esa sala
+	# var current_room_pos := _get_room_grid_pos(_get_player_room())
+	# if current_room_pos != pos:
+	#     return
+
+	var spawned := spawn_enemies_in_room(room, enemies_per_room)
+	if spawned > 0:
+		print("Spawneados ", spawned, " enemigos en sala ", pos)
 
 
 # ========================
