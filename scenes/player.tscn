@@ -248,12 +248,11 @@ animations = [{
 size = Vector2(20, 26)
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(-70, -54)
+position = Vector2(-12, 3)
 script = ExtResource("1_g2els")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(171, 114)
 sprite_frames = SubResource("SpriteFrames_bj30b")
 animation = &"idle_up"
 autoplay = "idle_down"
@@ -261,5 +260,6 @@ frame_progress = 0.7381049
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(170, 105)
 shape = SubResource("RectangleShape2D_dqkch")
+
+[node name="Camera2D" type="Camera2D" parent="."]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="proyecto-final-videojuegos"
-run/main_scene="uid://r7e58bh1yshp"
+run/main_scene="uid://cp4g16hoa4wct"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -53,3 +53,4 @@ down={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.015686275, 0.12156863, 0.15686275, 1)
