@@ -7,7 +7,7 @@ extends Node2D
 
 @export var player_scene: PackedScene
 
-@export var max_rooms: int = 8
+@export var max_rooms: int = 5
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
 
