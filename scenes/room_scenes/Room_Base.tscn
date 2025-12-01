@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=4 uid="uid://dvt3eetokteon"]
+[gd_scene load_steps=42 format=4 uid="uid://dvt3eetokteon"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_3ghvb"]
 [ext_resource type="Script" uid="uid://c2eg5r38j7yd4" path="res://scenes/room_scenes/room_base.gd" id="1_vh3rr"]
@@ -93,36 +93,40 @@ texture = ExtResource("14_g3wjx")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dhf37"]
-texture = ExtResource("15_wqtfv")
-texture_region_size = Vector2i(16, 32)
-0:0/0 = 0
-0:1/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c8u8o"]
-texture = ExtResource("16_ffh7f")
-0:0/0 = 0
-
 [sub_resource type="TileSet" id="TileSet_brh18"]
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_3afyh")
 sources/2 = SubResource("TileSetAtlasSource_ee5kq")
 sources/3 = SubResource("TileSetAtlasSource_wt23i")
 sources/4 = SubResource("TileSetAtlasSource_3twan")
-sources/5 = SubResource("TileSetAtlasSource_dhf37")
-sources/6 = SubResource("TileSetAtlasSource_c8u8o")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0oo38"]
+texture = ExtResource("16_ffh7f")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kv40q"]
+texture = ExtResource("15_wqtfv")
+texture_region_size = Vector2i(16, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, 8, 8, 8, 8, -8)
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_unkl5"]
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_0oo38")
+sources/2 = SubResource("TileSetAtlasSource_kv40q")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhf37"]
-size = Vector2(77, 28)
+size = Vector2(77, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8u8o"]
-size = Vector2(78, 28)
+size = Vector2(78, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brh18"]
-size = Vector2(14, 72)
+size = Vector2(14, 77.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v1oy"]
-size = Vector2(13, 71)
+size = Vector2(13, 81)
 
 [node name="Room_Base" type="Node2D"]
 script = ExtResource("1_vh3rr")
@@ -134,8 +138,12 @@ tile_map_data = PackedByteArray("AAABAAIAAQAAAAAAAAABAAMAAQAAAAAAAAABAAQAAQAAAAA
 tile_set = SubResource("TileSet_hhf2o")
 
 [node name="Walls" type="TileMapLayer" parent="TilemapLayers"]
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAABAAAwAAAAAAAAACABAAAAAAAAAAAAADABAAAAAAAAAAAAAEABAAAAAAAAAAAAABABAAAAAAAAAAAAAFABAAAwAAAAAAAAAGABAABQAAAAAAAAAHABAABQAAAAAAAAAIABAABQAAAAAAAAAJABAABQAAAAAAAAAMABAAAAAAAAAAAAANABAAAAAAAAAAAAAOABAAAwAAAAAAAAAPABAAAwAAAAAAAAAQABAAAAAAAAAAAAAQAA8ABAAAAAAAAAAQAA4AAgAAAAAAAAAQAA0AAgAAAAAAAAAQAAwAAgAAAAAAAAAKABAABQAAAAAAAAAQAAkABQAAAAAAAAAQAAgABQAAAAAAAAAQAAcABQAAAAAAAAAQAAYABQAAAAAAAAAQAAEAAgAAAAAAAAAQAAIABAAAAAAAAAAQAAMAAgAAAAAAAAAQAAQAAgAAAAAAAAAAAA8ABAAAAAAAAAAAAA4AAgAAAAAAAAAAAA0AAgAAAAAAAAAAAAwAAgAAAAAAAAAAAAkABQAAAAAAAAAAAAgABQAAAAAAAAAAAAcABQAAAAAAAAAAAAYABQAAAAAAAAAAAAQAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAAIAAgAAAAAAAAAAAAEABAAAAAAAAAAGAAAABQAAAAAAAAAHAAAABQAAAAAAAAAIAAAABQAAAAAAAAAJAAAABQAAAAAAAAAKAAAABQAAAAAAAAADAAAAAAAAAAAAAAANAAAAAwAAAAAAAAALAAAAAwAAAAAAAAAFAAAAAwAAAAAAAAAAAAoABQAAAAAAAAAQAAoABQAAAAAAAAAAAAsAAwAAAAAAAAAAAAUAAwAAAAAAAAAQAAsAAwAAAAAAAAAQAAUAAwAAAAAAAAALABAAAwAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAABAAAwAAAAAAAAACABAAAAAAAAAAAAADABAAAAAAAAAAAAAEABAAAAAAAAAAAAABABAAAAAAAAAAAAAFABAAAwAAAAAAAAAMABAAAAAAAAAAAAANABAAAAAAAAAAAAAOABAAAwAAAAAAAAAPABAAAwAAAAAAAAAQABAAAAAAAAAAAAAQAA8ABAAAAAAAAAAQAA4AAgAAAAAAAAAQAA0AAgAAAAAAAAAQAAwAAgAAAAAAAAAQAAEAAgAAAAAAAAAQAAIABAAAAAAAAAAQAAMAAgAAAAAAAAAQAAQAAgAAAAAAAAAAAA8ABAAAAAAAAAAAAA4AAgAAAAAAAAAAAA0AAgAAAAAAAAAAAAwAAgAAAAAAAAAAAAQAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAAIAAgAAAAAAAAAAAAEABAAAAAAAAAADAAAAAAAAAAAAAAANAAAAAwAAAAAAAAALAAAAAwAAAAAAAAAFAAAAAwAAAAAAAAAAAAsAAwAAAAAAAAAAAAUAAwAAAAAAAAAQAAsAAwAAAAAAAAAQAAUAAwAAAAAAAAALABAAAwAAAAAAAAA=")
 tile_set = SubResource("TileSet_brh18")
+
+[node name="Gates" type="TileMapLayer" parent="TilemapLayers"]
+tile_map_data = PackedByteArray("AAAGABAAAQAAAAAAAAAHABAAAQAAAAAAAAAIABAAAQAAAAAAAAAJABAAAQAAAAAAAAAKABAAAQAAAAAAAAAQAAYAAQAAAAAAAAAQAAcAAQAAAAAAAAAQAAgAAQAAAAAAAAAQAAkAAQAAAAAAAAAAAAYAAQAAAAAAAAAAAAcAAQAAAAAAAAAAAAgAAQAAAAAAAAAAAAkAAQAAAAAAAAAAAAoAAQAAAAAAAAAQAAoAAQAAAAAAAAAGAAAAAQAAAAAAAAAHAAAAAQAAAAAAAAAIAAAAAQAAAAAAAAAJAAAAAQAAAAAAAAAKAAAAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_unkl5")
 
 [node name="Doors" type="Node2D" parent="."]
 
@@ -160,7 +168,7 @@ script = ExtResource("18_kv40q")
 direction = Vector2i(1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_E"]
-position = Vector2(263.5, 126)
+position = Vector2(264, 134.25)
 shape = SubResource("RectangleShape2D_brh18")
 
 [node name="Door_W" type="Area2D" parent="Doors"]
@@ -168,5 +176,5 @@ script = ExtResource("18_kv40q")
 direction = Vector2i(-1, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_W"]
-position = Vector2(8, 125.75)
+position = Vector2(8, 134.5)
 shape = SubResource("RectangleShape2D_4v1oy")
