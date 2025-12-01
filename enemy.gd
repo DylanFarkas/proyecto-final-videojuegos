@@ -1,8 +1,12 @@
 extends CharacterBody2D
 class_name Enemy
 
+signal died
+
 @export var speed := 60
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+var hp: int = 1 
+
 
 var player: Node2D = null
 var last_player_pos: Vector2 = Vector2.ZERO
@@ -56,3 +60,12 @@ func _physics_process(delta):
 		animated_sprite.play("attack-down")
 
 	last_player_pos = player.global_position
+	
+func take_damage(amount: int = 1) -> void:
+	hp -= amount
+	if hp <= 0:
+		die()
+
+func die() -> void:
+	died.emit()
+	queue_free()

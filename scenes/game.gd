@@ -9,9 +9,13 @@ extends Node2D
 @export var enemy_scene : PackedScene
 
 @export var enemies_per_room: int = 1
+@export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
 @export var max_rooms: int = 5
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
+
+var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
+var enemies_by_room: Dictionary = {}             # Vector2i -> Array[Node2D]
 
 var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
@@ -93,18 +97,89 @@ func generate_dungeon() -> void:
 
 	_configure_all_exits()
 
-	# spawn enemigos AHORA
-	_spawn_enemies_all_rooms()
-
-	# debug
-	debug_list_enemies_after_spawn()
-
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
 
+func _get_room_grid_pos(room: Node2D) -> Vector2i:
+	for pos in grid.keys():
+		if grid[pos] == room:
+			return pos
+	push_warning("Room no encontrada en grid, devolviendo (0, 0)")
+	return Vector2i(0, 0)
+
+
+func _should_spawn_enemies_here(room: Node2D, pos: Vector2i) -> bool:
+	# No spawnear en pasillos (marcados con el grupo "corridor")
+	if room.is_in_group("corridor"):
+		return false
+
+	# No spawnear en la sala inicial
+	if pos == Vector2i(0, 0):
+		return false
+
+	# No repetir en salas visitadas
+	if rooms_with_enemies_spawned.get(pos, false):
+		return false
+
+	return true
+
 
 # ========================
-#     ENEMIGOS (FIX TOTAL)
+#    ENTRAR POR PUERTAS
+# ========================
+
+func on_player_use_door(current_room: Node2D, direction: Vector2i, body: Node) -> void:
+	if body != player:
+		return
+
+	var current_pos := _get_room_grid_pos(current_room)
+	var target_pos := current_pos + direction
+
+	if not grid.has(target_pos):
+		print("No hay sala en dirección ", direction, " desde ", current_pos)
+		return
+
+	var target_room: Node2D = grid[target_pos]
+
+	# Solo salas válidas y que aún no hayan sido usadas
+	if _should_spawn_enemies_here(target_room, target_pos):
+		# Marcamos de una vez que esta sala ya fue "procesada"
+		rooms_with_enemies_spawned[target_pos] = true
+
+		# Lanzamos la corrutina que espera a que el jugador cruce
+		_lock_and_spawn_room(target_room, target_pos)
+
+func _lock_and_spawn_room(target_room: Node2D, target_pos: Vector2i) -> void:
+	# Pequeño delay para que el jugador termine de cruzar la puerta
+	await get_tree().create_timer(1).timeout  # ajusta 0.25f si quieres más/menos tiempo
+
+	if not is_instance_valid(target_room):
+		return
+
+	# Ahora sí, cerramos las puertas de esa sala
+	if target_room.has_method("lock_doors"):
+		target_room.lock_doors()
+
+	# Y programamos el spawn de enemigos con el delay normal
+	_spawn_enemies_after_delay(target_room, target_pos)
+
+
+func _spawn_enemies_after_delay(room: Node2D, pos: Vector2i) -> void:
+	# Esperar X segundos
+	await get_tree().create_timer(enemy_spawn_delay).timeout
+
+	# Por si la sala fue borrada o algo raro
+	if not is_instance_valid(room):
+		return
+
+	# Spawnear enemigos en esa sala
+	var spawned := spawn_enemies_in_room(room, pos, enemies_per_room)
+	if spawned > 0:
+		print("Spawneados ", spawned, " enemigos en sala ", pos)
+
+
+# ========================
+#          ENEMIGOS
 # ========================
 
 func _spawn_enemies_all_rooms():
@@ -124,13 +199,11 @@ func _spawn_enemies_all_rooms():
 		if pos == Vector2i(0,0):  # sala inicial no
 			continue
 
-		var spawned = spawn_enemies_in_room(cell, enemies_per_room)
+		var spawned = spawn_enemies_in_room(cell, pos, enemies_per_room)
 		total_spawned += spawned
 
 
-
-
-func spawn_enemies_in_room(room: Node2D, amount: int) -> int:
+func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int:
 	if enemy_scene == null:
 		return 0
 
@@ -161,11 +234,33 @@ func spawn_enemies_in_room(room: Node2D, amount: int) -> int:
 		if enemy is CanvasItem:
 			enemy.z_index = 50
 
-
+		_register_enemy(room_pos, enemy)
 		spawned += 1
 
 	return spawned
 
+
+func _register_enemy(room_pos: Vector2i, enemy: Node2D) -> void:
+	if not enemies_by_room.has(room_pos):
+		enemies_by_room[room_pos] = []
+	enemies_by_room[room_pos].append(enemy)
+
+	# Conectar señal de muerte si existe
+	if enemy.has_signal("died"):
+		enemy.connect("died", Callable(self, "_on_enemy_died").bind(room_pos, enemy))
+
+
+func _on_enemy_died(room_pos: Vector2i, enemy: Node2D) -> void:
+	if not enemies_by_room.has(room_pos):
+		return
+
+	enemies_by_room[room_pos].erase(enemy)
+
+	if enemies_by_room[room_pos].is_empty():
+		var room: Node2D = grid.get(room_pos, null)
+		if room and room.has_method("unlock_doors"):
+			room.unlock_doors()
+		print("Sala ", room_pos, " limpia. Puertas abiertas.")
 
 
 func debug_list_enemies_after_spawn():
@@ -179,7 +274,6 @@ func debug_list_enemies_after_spawn():
 			print("Enemy:", c, " pos:", c.global_position)
 			count += 1
 	print("Total enemigos detectados:", count)
-
 
 
 # ========================
@@ -229,7 +323,6 @@ func _configure_all_exits() -> void:
 
 		if room.has_method("configure_exits"):
 			room.configure_exits(up, down, left, right)
-
 
 
 # ========================
