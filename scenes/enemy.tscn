@@ -95,7 +95,7 @@ scale = Vector2(1.0833331, 1.1666667)
 sprite_frames = SubResource("SpriteFrames_nb6gf")
 animation = &"attack-down"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 visible = false
 position = Vector2(5.5, 7)
 shape = SubResource("RectangleShape2D_jt03m")

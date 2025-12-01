@@ -44,7 +44,7 @@ script = ExtResource("1_og67c")
 position = Vector2(4, 0)
 sprite_frames = SubResource("SpriteFrames_qd4js")
 animation = &"Idle_arma"
-frame_progress = 0.8915737
+frame_progress = 0.2644044
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(11, -2)
