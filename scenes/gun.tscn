@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddkv1riw716v"]
+
+[ext_resource type="Script" uid="uid://dlveotl78j65o" path="res://scenes/gun.gd" id="1_og67c"]
+[ext_resource type="Texture2D" uid="uid://culryxtang6px" path="res://assets/sprites/level/Guns/Armas.png" id="1_x77fm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og67c"]
+atlas = ExtResource("1_x77fm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp1hk"]
+atlas = ExtResource("1_x77fm")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd4js"]
+atlas = ExtResource("1_x77fm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qd4js"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og67c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gp1hk")
+}],
+"loop": true,
+"name": &"Amar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd4js")
+}],
+"loop": true,
+"name": &"Idle_arma",
+"speed": 5.0
+}]
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_og67c")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, 0)
+sprite_frames = SubResource("SpriteFrames_qd4js")
+animation = &"Idle_arma"
+frame_progress = 0.8915737
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(11, -2)
