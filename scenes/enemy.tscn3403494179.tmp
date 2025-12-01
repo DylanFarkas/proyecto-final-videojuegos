@@ -87,7 +87,7 @@ animations = [{
 size = Vector2(20, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
-size = Vector2(23.6875, 20.3125)
+size = Vector2(11.5, 6.5)
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_md0e3")
@@ -106,7 +106,7 @@ shape = SubResource("RectangleShape2D_jt03m")
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(3.15625, 5.84375)
+position = Vector2(9.25, 8.75)
 shape = SubResource("RectangleShape2D_4ra3w")
 
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
