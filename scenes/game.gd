@@ -21,6 +21,8 @@ var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
 var player: Node2D = null
 
+@export var hud_scene: PackedScene
+var hud: CanvasLayer = null
 
 func _ready() -> void:
 	rng.randomize()
@@ -334,9 +336,20 @@ func spawn_player() -> void:
 		push_error("player_scene no está asignado.")
 		return
 
+	# Instanciar Player
 	player = player_scene.instantiate()
 	add_child(player)
 
+	# Instanciar HUD (una sola vez)
+	if hud_scene and hud == null:
+		hud = hud_scene.instantiate()
+		add_child(hud)  # CanvasLayer → siempre en pantalla
+
+	# Pasar HUD al player
+	if hud and player.has_method("set_hud"):
+		player.set_hud(hud)
+
+	# Posicionar al jugador
 	var start_room: Node2D = grid.get(Vector2i(0, 0), null)
 	if start_room == null:
 		push_error("No se encontró la sala de inicio en la grid.")
