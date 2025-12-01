@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 # Función para instanciar la bala
 func shoot_bullet():
 	var bullet_instance = BULLET.instantiate()
-	bullet_instance.global_position = muzzle.global_position + Vector2(16, 0).rotated(rotation)
+	bullet_instance.global_position = muzzle.global_position
 	bullet_instance.rotation = rotation
 	bullet_instance.player = player
 	get_tree().root.add_child(bullet_instance)
