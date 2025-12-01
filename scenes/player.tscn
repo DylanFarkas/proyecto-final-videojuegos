@@ -1,9 +1,10 @@
-[gd_scene load_steps=35 format=3 uid="uid://r7e58bh1yshp"]
+[gd_scene load_steps=36 format=3 uid="uid://r7e58bh1yshp"]
 
 [ext_resource type="Script" uid="uid://bkgrf20n7wu7c" path="res://scenes/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://cbkhlle0h3iyf" path="res://assets/sprites/player/pixilart-sprite idle.png" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://bwmk6f7ddtare" path="res://assets/sprites/player/pixilart-sprite derecha.png" id="3_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://dkhdbtnelhx65" path="res://assets/sprites/player/pixilart-sprite izquierda.png" id="4_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://ddkv1riw716v" path="res://scenes/gun.tscn" id="5_qlg0r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
 atlas = ExtResource("2_dqkch")
@@ -248,18 +249,23 @@ animations = [{
 size = Vector2(16, 21)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-position = Vector2(10, 29)
+position = Vector2(17, 43)
 script = ExtResource("1_g2els")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(10, 4)
 sprite_frames = SubResource("SpriteFrames_bj30b")
 animation = &"idle_up"
 autoplay = "idle_down"
 frame_progress = 0.7381049
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, -8.5)
+position = Vector2(7, -5)
 shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(9, 3)
+
+[node name="Gun" parent="." instance=ExtResource("5_qlg0r")]
+position = Vector2(1, 4)
