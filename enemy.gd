@@ -12,8 +12,10 @@ var player: Node2D = null
 var last_player_pos: Vector2 = Vector2.ZERO
 
 func _ready():
-	animated_sprite.play("attack")             # animación por defecto
-	call_deferred("_find_player")              # busco player luego
+	add_to_group("enemy")
+	animated_sprite.play("attack")
+	call_deferred("_find_player")
+
 
 func _find_player():
 	var players = get_tree().get_nodes_in_group("player")
