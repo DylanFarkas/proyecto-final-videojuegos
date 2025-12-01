@@ -8,7 +8,7 @@ extends Node2D
 @export var player_scene: PackedScene
 @export var enemy_scene : PackedScene
 
-@export var enemies_per_room: int = 1
+@export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
 @export var max_rooms: int = 5
