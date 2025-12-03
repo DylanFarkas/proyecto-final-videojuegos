@@ -6,16 +6,21 @@ extends CanvasLayer
 
 var hearts_count: int = 0
 
-@onready var hearts_container := $MarginContainer/HBoxContainer
-@onready var hearts: Array[TextureRect] = []
+@onready var hearts_container := $MarginContainer/HBoxRoot/HeartsContainer
+@onready var minimap: Minimap = $Minimap
 
+func init_minimap(grid: Dictionary, start_pos: Vector2i) -> void:
+	if minimap:
+		minimap.build_from_grid(grid, start_pos)
+
+func update_current_room(room_pos: Vector2i) -> void:
+	if minimap:
+		minimap.set_current_room(room_pos)
 
 func setup(max_hp: int) -> void:
-	# Cada corazón = 2 HP
 	hearts_count = int(ceil(max_hp / 2.0))
 	_create_hearts()
 	update_health(max_hp, max_hp)
-
 
 func update_health(current_hp: int, max_hp: int) -> void:
 	if hearts_count == 0:
@@ -34,6 +39,7 @@ func update_health(current_hp: int, max_hp: int) -> void:
 		else:
 			hearts[i].texture = heart_empty
 
+var hearts: Array[TextureRect] = []
 
 func _create_hearts() -> void:
 	hearts.clear()
@@ -44,10 +50,10 @@ func _create_hearts() -> void:
 	for i in range(hearts_count):
 		var heart := TextureRect.new()
 
-		heart.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		# NO los expandas al ancho, déjalos con tamaño fijo
 		heart.texture = heart_full
-		heart.custom_minimum_size = Vector2(20, 20) 
+		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		heart.custom_minimum_size = Vector2(20, 20) # o 12x12 si así te gustaba
 
 		hearts_container.add_child(heart)
 		hearts.append(heart)
