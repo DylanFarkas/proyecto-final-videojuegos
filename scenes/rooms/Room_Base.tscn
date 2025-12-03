@@ -1,7 +1,7 @@
 [gd_scene load_steps=42 format=4 uid="uid://dvt3eetokteon"]
 
 [ext_resource type="Texture2D" uid="uid://7qrw48ynmvwh" path="res://assets/sprites/level/floor/suelo1.jpeg" id="1_3ghvb"]
-[ext_resource type="Script" uid="uid://c2eg5r38j7yd4" path="res://scenes/room_scenes/room_base.gd" id="1_vh3rr"]
+[ext_resource type="Script" uid="uid://c2eg5r38j7yd4" path="res://scenes/rooms/room_base.gd" id="1_vh3rr"]
 [ext_resource type="Texture2D" uid="uid://dbw6x5irkias3" path="res://assets/sprites/level/floor/suelo2.jpeg" id="2_vh3rr"]
 [ext_resource type="Texture2D" uid="uid://cyb4tnjjq18mu" path="res://assets/sprites/level/floor/suelo3.jpeg" id="3_kv40q"]
 [ext_resource type="Texture2D" uid="uid://cs5rh7dtdcnu6" path="res://assets/sprites/level/floor/suelo4.jpeg" id="4_0oo38"]
@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://ij6xfy5bgl3s" path="res://assets/sprites/level/walls/piedra-musgosa.png" id="14_g3wjx"]
 [ext_resource type="Texture2D" uid="uid://c314sltxa2tyy" path="res://assets/sprites/level/walls/valla-completa.png" id="15_wqtfv"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_ffh7f"]
-[ext_resource type="Script" uid="uid://qtai8y3pbjsx" path="res://scenes/Door.gd" id="18_kv40q"]
+[ext_resource type="Script" uid="uid://qtai8y3pbjsx" path="res://scenes/environment/Door.gd" id="18_kv40q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5hbeb"]
 texture = ExtResource("1_3ghvb")

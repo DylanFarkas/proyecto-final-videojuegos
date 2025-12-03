@@ -1,6 +1,6 @@
 extends Node2D
 
-const BULLET = preload("res://scenes/bullet/node_2d.tscn")
+const BULLET = preload("res://scenes/weapons/weapon1/node_2d.tscn")
 @onready var muzzle: Marker2D = $Marker2D
 @onready var player = get_parent()
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D

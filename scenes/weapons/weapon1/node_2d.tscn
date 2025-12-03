@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgs6p22gx07cx"]
 
-[ext_resource type="Script" uid="uid://c64d13gjvqrml" path="res://scenes/bullet/node_2d.gd" id="1_xclku"]
+[ext_resource type="Script" uid="uid://c64d13gjvqrml" path="res://scenes/weapons/weapon1/node_2d.gd" id="1_xclku"]
 [ext_resource type="Texture2D" uid="uid://sun4fwa6txyn" path="res://assets/sprites/level/Guns/proyectil2.png" id="2_xclku"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xclku"]
