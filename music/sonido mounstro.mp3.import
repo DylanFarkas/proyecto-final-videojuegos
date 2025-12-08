@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://uv3raq2wmtlb"
+path="res://.godot/imported/sonido mounstro.mp3-fe2ad4a4f3ee1b47944edca8ff3f2456.mp3str"
+
+[deps]
+
+source_file="res://music/sonido mounstro.mp3"
+dest_files=["res://.godot/imported/sonido mounstro.mp3-fe2ad4a4f3ee1b47944edca8ff3f2456.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
