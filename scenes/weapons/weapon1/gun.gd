@@ -4,6 +4,7 @@ const BULLET = preload("res://scenes/weapons/weapon1/node_2d.tscn")
 @onready var muzzle: Marker2D = $Marker2D
 @onready var player = get_parent()
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var shoot_sound: AudioStreamPlayer = $ShootSound
 
 var shoot_cooldown := 0.2  # tiempo mínimo entre disparos continuos
 var shoot_timer := 0.0
@@ -41,3 +42,8 @@ func shoot_bullet():
 	bullet_instance.rotation = rotation
 	bullet_instance.player = player
 	get_tree().root.add_child(bullet_instance)
+	
+	
+	print("Intentando reproducir sonido...")
+	shoot_sound.play()
+	print("¿Está reproduciendo? -> ", shoot_sound.playing)
