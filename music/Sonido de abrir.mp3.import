@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://k248asflwnnc"
+path="res://.godot/imported/Sonido de abrir.mp3-64a9d50246b26fdae4140e1d9997c5ec.mp3str"
+
+[deps]
+
+source_file="res://music/Sonido de abrir.mp3"
+dest_files=["res://.godot/imported/Sonido de abrir.mp3-64a9d50246b26fdae4140e1d9997c5ec.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
