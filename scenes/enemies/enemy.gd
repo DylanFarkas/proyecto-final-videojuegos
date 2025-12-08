@@ -9,6 +9,7 @@ signal died
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hitbox: Area2D = $HitBox       # OJO: mismo nombre que el nodo en la escena
+@onready var attack_sound: AudioStreamPlayer = $Attacksound
 
 var hp: int = 1 
 
@@ -81,6 +82,8 @@ func _on_HitBox_body_entered(body: Node2D) -> void:
 	
 	if body.is_in_group("player") and body.has_method("take_damage"):
 		body.take_damage(damage)   # 1 = medio corazón
+	if attack_sound:
+		attack_sound.play()
 		can_damage = false
 		_start_attack_cooldown()
 
