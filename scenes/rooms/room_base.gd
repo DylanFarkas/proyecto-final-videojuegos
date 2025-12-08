@@ -3,6 +3,8 @@ extends Node2D
 var grid_position: Vector2i = Vector2i.ZERO
 
 @onready var gates_tilemap: TileMapLayer = $TilemapLayers/Gates
+@onready var open_sound: AudioStreamPlayer = $OpenSound
+@onready var close_sound: AudioStreamPlayer = $CloseSound
 
 # IDs de los tiles en el TileSet de Gates
 @export var gate_open_source_id: int = 1        # valla.png  (abajo / abierta)
@@ -124,6 +126,9 @@ func lock_doors() -> void:
 		_set_gate_state(gate_cells_w, true)
 	if exit_right:
 		_set_gate_state(gate_cells_e, true)
+	
+	if close_sound:
+		close_sound.play()
 
 
 func unlock_doors() -> void:
@@ -138,3 +143,6 @@ func unlock_doors() -> void:
 		_set_gate_state(gate_cells_w, false)
 	if exit_right:
 		_set_gate_state(gate_cells_e, false)
+		
+	if open_sound:
+		open_sound.play()
