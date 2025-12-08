@@ -44,6 +44,4 @@ func shoot_bullet():
 	get_tree().root.add_child(bullet_instance)
 	
 	
-	print("Intentando reproducir sonido...")
 	shoot_sound.play()
-	print("¿Está reproduciendo? -> ", shoot_sound.playing)
