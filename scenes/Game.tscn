@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player/player.tscn" id="6_aug50"]
 [ext_resource type="PackedScene" uid="uid://b3fybqw6ocyx6" path="res://scenes/enemies/enemy.tscn" id="8_400sg"]
 [ext_resource type="PackedScene" uid="uid://ccqqe804g38x1" path="res://scenes/hud/hud.tscn" id="9_g4kob"]
-[ext_resource type="AudioStream" uid="uid://ceiclmqveawub" path="res://assets/sounds/Ecos de la Mazmorra (1).mp3" id="10_qy1jj"]
+[ext_resource type="AudioStream" uid="uid://bx8lupfdy1qsv" path="res://assets/sounds/Mazmorras Pixeladas.mp3" id="10_qy1jj"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ibkli")
