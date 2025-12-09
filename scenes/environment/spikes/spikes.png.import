@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dokvrcd7hjnsa"
-path="res://.godot/imported/pinchos.png-4326325bf37740b800ef7c2f9a089b27.ctex"
+uid="uid://d04mcb1j0x0lo"
+path="res://.godot/imported/spikes.png-48c8ad2e197469862c844c4aa6a9647e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/level/decoration/pinchos.png"
-dest_files=["res://.godot/imported/pinchos.png-4326325bf37740b800ef7c2f9a089b27.ctex"]
+source_file="res://scenes/environment/spikes/spikes.png"
+dest_files=["res://.godot/imported/spikes.png-48c8ad2e197469862c844c4aa6a9647e.ctex"]
 
 [params]
 

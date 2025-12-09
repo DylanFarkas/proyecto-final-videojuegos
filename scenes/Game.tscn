@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp4g16hoa4wct"]
+[gd_scene load_steps=13 format=3 uid="uid://cp4g16hoa4wct"]
 
 [ext_resource type="Script" uid="uid://8srwx7oa2dlv" path="res://scenes/game.gd" id="1_ibkli"]
 [ext_resource type="PackedScene" uid="uid://dx4uqjcju6hgi" path="res://scenes/rooms/Room_Start.tscn" id="2_aug50"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://ccqqe804g38x1" path="res://scenes/hud/hud.tscn" id="9_g4kob"]
 [ext_resource type="PackedScene" uid="uid://dc1gos2dduj71" path="res://scenes/environment/chest/chest.tscn" id="10_3xj3m"]
 [ext_resource type="AudioStream" uid="uid://bx8lupfdy1qsv" path="res://assets/sounds/Mazmorras Pixeladas.mp3" id="10_qy1jj"]
+[ext_resource type="PackedScene" uid="uid://b6ahhhem18oo1" path="res://scenes/environment/spikes/spike.tscn" id="11_mcffj"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ibkli")
@@ -22,6 +23,7 @@ player_scene = ExtResource("6_aug50")
 enemy_scene = ExtResource("8_400sg")
 hud_scene = ExtResource("9_g4kob")
 chest_scene = ExtResource("10_3xj3m")
+spike_scene = ExtResource("11_mcffj")
 
 [node name="MusicGame" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_qy1jj")
