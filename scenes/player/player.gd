@@ -29,6 +29,7 @@ func _ready() -> void:
 			break
 
 	_set_weapons_active()
+	_update_hud_weapons()
 
 
 # La HUD la asigna Game.gd
@@ -36,6 +37,7 @@ func set_hud(h: Node) -> void:
 	hud = h
 	if hud and hud.has_method("update_health"):
 		hud.update_health(current_hp, max_hp)
+	_update_hud_weapons()
 
 
 func _physics_process(delta: float) -> void:
@@ -123,6 +125,7 @@ func _swap_weapon() -> void:
 	active_weapon_slot = other_slot
 	current_weapon = other_weapon
 	_set_weapons_active()
+	_update_hud_weapons()
 	print("Cambiaste al arma del slot ", active_weapon_slot)
 
 
@@ -151,6 +154,7 @@ func pickup_weapon(weapon_scene: PackedScene, weapon_name: String) -> void:
 			active_weapon_slot = i
 			current_weapon = new_weapon
 			_set_weapons_active()
+			_update_hud_weapons()  # ← ESTA LÍNEA FALTABA
 			print("Has obtenido el arma: %s (slot %d)" % [weapon_name, i])
 			return
 
@@ -161,4 +165,10 @@ func pickup_weapon(weapon_scene: PackedScene, weapon_name: String) -> void:
 	weapons[active_weapon_slot] = new_weapon
 	current_weapon = new_weapon
 	_set_weapons_active()
+	_update_hud_weapons()
+
 	print("Inventario lleno: se reemplazó el arma del slot activo por ", weapon_name)
+	
+func _update_hud_weapons():
+	if hud and hud.has_method("update_weapon_slots"):
+		hud.update_weapon_slots(weapons, active_weapon_slot)

@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://ox7dv6iu5tmk"]
+
+[ext_resource type="Script" uid="uid://dlveotl78j65o" path="res://scenes/weapons/weapon1/gun.gd" id="1_2d0ck"]
+[ext_resource type="Texture2D" uid="uid://culryxtang6px" path="res://assets/sprites/level/Guns/Armas.png" id="2_cinj2"]
+[ext_resource type="Texture2D" uid="uid://7m8p6t1kc8hd" path="res://assets/sprites/level/Guns/pixil-frame-0.png" id="3_880js"]
+[ext_resource type="AudioStream" uid="uid://b0p75an4d0vl3" path="res://assets/sounds/sonido disparo.mp3" id="3_ge60p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og67c"]
+atlas = ExtResource("2_cinj2")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp1hk"]
+atlas = ExtResource("2_cinj2")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd4js"]
+atlas = ExtResource("2_cinj2")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qd4js"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og67c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gp1hk")
+}],
+"loop": true,
+"name": &"Amar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_880js")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd4js")
+}],
+"loop": true,
+"name": &"Idle_arma",
+"speed": 5.0
+}]
+
+[node name="Gun2" type="Node2D"]
+script = ExtResource("1_2d0ck")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, 0)
+sprite_frames = SubResource("SpriteFrames_qd4js")
+animation = &"Idle_arma"
+frame_progress = 0.5451786
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(12, -3)
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ge60p")
+volume_db = -7.704
+pitch_scale = 1.09

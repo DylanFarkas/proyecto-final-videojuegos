@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dc1gos2dduj71"]
 
 [ext_resource type="Texture2D" uid="uid://ojlr3injtmmh" path="res://assets/sprites/level/chest/cofre.png" id="1_pwv08"]
-[ext_resource type="PackedScene" uid="uid://ddkv1riw716v" path="res://scenes/weapons/weapon1/gun.tscn" id="2_pphdw"]
+[ext_resource type="PackedScene" uid="uid://ox7dv6iu5tmk" path="res://scenes/weapons/weapon2/gun2.tscn" id="2_pphdw"]
 [ext_resource type="Script" uid="uid://c5ayip7tioe8b" path="res://scenes/environment/chest/chest.gd" id="2_qpwn7"]
 [ext_resource type="Texture2D" uid="uid://beqvn8f54tmxx" path="res://assets/sprites/level/chest/cofre-abierto.png" id="4_us5vj"]
 
