@@ -1,5 +1,7 @@
 extends Node2D
 
+
+@onready var music_game: AudioStreamPlayer = $MusicGame
 @export var start_room_scene: PackedScene            # Room_Start.tscn
 @export var vertical_corridor_scene: PackedScene     # pasillo_vertical.tscn
 @export var horizontal_corridor_scene: PackedScene   # pasillo_horizontal.tscn
@@ -11,7 +13,7 @@ extends Node2D
 @export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
-@export var max_rooms: int = 5
+@export var max_rooms: int = 8
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
 var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
@@ -21,9 +23,15 @@ var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
 var player: Node2D = null
 
+@export var hud_scene: PackedScene
+var hud: CanvasLayer = null
 
 func _ready() -> void:
 	rng.randomize()
+	
+	if music_game:
+		music_game.play()
+	
 	generate_dungeon()
 	spawn_player()
 
@@ -141,13 +149,14 @@ func on_player_use_door(current_room: Node2D, direction: Vector2i, body: Node) -
 
 	var target_room: Node2D = grid[target_pos]
 
-	# Solo salas válidas y que aún no hayan sido usadas
-	if _should_spawn_enemies_here(target_room, target_pos):
-		# Marcamos de una vez que esta sala ya fue "procesada"
-		rooms_with_enemies_spawned[target_pos] = true
+	# 🔸 Actualizar minimapa SIEMPRE que entres a una sala
+	if hud and hud.has_method("update_current_room"):
+		hud.update_current_room(target_pos)
 
-		# Lanzamos la corrutina que espera a que el jugador cruce
+	if _should_spawn_enemies_here(target_room, target_pos):
+		rooms_with_enemies_spawned[target_pos] = true
 		_lock_and_spawn_room(target_room, target_pos)
+
 
 func _lock_and_spawn_room(target_room: Node2D, target_pos: Vector2i) -> void:
 	# Pequeño delay para que el jugador termine de cruzar la puerta
@@ -337,6 +346,21 @@ func spawn_player() -> void:
 	player = player_scene.instantiate()
 	add_child(player)
 
+	# Instanciar HUD
+	if hud_scene and hud == null:
+		hud = hud_scene.instantiate()
+		add_child(hud)  # CanvasLayer
+
+		# 🔸 Inicializar minimapa con la grid y la sala (0,0)
+		if hud.has_method("init_minimap"):
+			hud.init_minimap(grid, Vector2i(0, 0))
+
+
+	# Pasar HUD al player
+	if hud and player.has_method("set_hud"):
+		player.set_hud(hud)
+
+	# Posicionar al jugador
 	var start_room: Node2D = grid.get(Vector2i(0, 0), null)
 	if start_room == null:
 		push_error("No se encontró la sala de inicio en la grid.")
