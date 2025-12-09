@@ -1,5 +1,7 @@
 extends Node2D
 
+
+@onready var music_game: AudioStreamPlayer = $MusicGame
 @export var start_room_scene: PackedScene            # Room_Start.tscn
 @export var vertical_corridor_scene: PackedScene     # pasillo_vertical.tscn
 @export var horizontal_corridor_scene: PackedScene   # pasillo_horizontal.tscn
@@ -26,6 +28,10 @@ var hud: CanvasLayer = null
 
 func _ready() -> void:
 	rng.randomize()
+	
+	if music_game:
+		music_game.play()
+	
 	generate_dungeon()
 	spawn_player()
 
