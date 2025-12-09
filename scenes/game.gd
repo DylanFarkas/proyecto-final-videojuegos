@@ -13,7 +13,7 @@ extends Node2D
 @export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
-@export var max_rooms: int = 8
+@export var max_rooms: int = 1
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
 var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
@@ -25,6 +25,9 @@ var player: Node2D = null
 
 @export var hud_scene: PackedScene
 var hud: CanvasLayer = null
+
+@export var chest_scene: PackedScene
+var chest_instance: Node2D = null
 
 func _ready() -> void:
 	rng.randomize()
@@ -104,6 +107,8 @@ func generate_dungeon() -> void:
 		frontier.append(room_candidate)
 
 	_configure_all_exits()
+	
+	_place_random_chest()
 
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
@@ -371,3 +376,44 @@ func spawn_player() -> void:
 		player.global_position = spawn.global_position
 	else:
 		player.global_position = start_room.global_position + room_size * 0.5
+		
+func _place_random_chest() -> void:
+	if chest_scene == null:
+		return
+
+	var candidate_positions: Array[Vector2i] = []
+
+	for pos in grid.keys():
+		var room: Node2D = grid[pos]
+		if room == null:
+			continue
+
+		# excluir pasillos y sala inicial
+		if room.is_in_group("corridor"):
+			continue
+		if pos == Vector2i(0, 0):
+			continue
+
+		candidate_positions.append(pos)
+
+	if candidate_positions.is_empty():
+		return
+
+	var chosen_pos: Vector2i = candidate_positions[rng.randi_range(0, candidate_positions.size() - 1)]
+	var chosen_room: Node2D = grid[chosen_pos]
+
+	chest_instance = chest_scene.instantiate()
+	add_child(chest_instance)
+
+	# posición aleatoria dentro de la sala
+	var margin := 32.0
+	var min_x := margin
+	var min_y := margin
+	var max_x := room_size.x - margin
+	var max_y := room_size.y - margin
+
+	var lx := rng.randf_range(min_x, max_x)
+	var ly := rng.randf_range(min_y, max_y)
+	var global_pos := chosen_room.global_position + Vector2(lx, ly)
+
+	chest_instance.global_position = global_pos
