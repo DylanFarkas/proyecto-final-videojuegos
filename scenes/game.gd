@@ -29,6 +29,10 @@ var hud: CanvasLayer = null
 @export var chest_scene: PackedScene
 var chest_instance: Node2D = null
 
+@export var spike_scene: PackedScene          # escena Spike.tscn
+@export var spike_spawn_chance: float = 0.5   # 0.0–1.0 probabilidad por spot
+@export var max_spikes_per_room: int = 3      # opcional, límite por room
+
 func _ready() -> void:
 	rng.randomize()
 	
@@ -107,8 +111,8 @@ func generate_dungeon() -> void:
 		frontier.append(room_candidate)
 
 	_configure_all_exits()
-	
 	_place_random_chest()
+	_spawn_spikes_in_rooms()
 
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
@@ -439,3 +443,46 @@ func _place_random_chest() -> void:
 		print("Sala sin ChestSpots (o vacíos), usando posición aleatoria en ", chosen_pos)
 
 	chest_instance.global_position = final_pos
+	
+func _spawn_spikes_in_rooms() -> void:
+	if spike_scene == null:
+		return
+
+	for pos in grid.keys():
+		var room: Node2D = grid[pos]
+		if room == null:
+			continue
+
+		# Excluir pasillos y sala inicial
+		if room.is_in_group("corridor"):
+			continue
+		if pos == Vector2i(0, 0):
+			continue
+
+		var spike_spots_node := room.get_node_or_null("SpikeSpots")
+		if spike_spots_node == null:
+			continue  # esta room no tiene spots, la saltamos
+
+		var spots: Array[Marker2D] = []
+		for c in spike_spots_node.get_children():
+			if c is Marker2D:
+				spots.append(c)
+
+		if spots.is_empty():
+			continue
+
+		# Opcional: mezclar spots para que los primeros elegidos sean random
+		spots.shuffle()
+
+		var spawned_in_room := 0
+
+		for spot in spots:
+			if spawned_in_room >= max_spikes_per_room:
+				break
+
+			# Tiramos probabilidad
+			if rng.randf() <= spike_spawn_chance:
+				var spike := spike_scene.instantiate()
+				add_child(spike)
+				spike.global_position = spot.global_position
+				spawned_in_room += 1

@@ -88,3 +88,8 @@ position = Vector2(131, 64)
 
 [node name="Spot3" type="Marker2D" parent="ChestSpots" index="2"]
 position = Vector2(234, 78)
+
+[node name="SpikeSpots" type="Node2D" parent="." index="4"]
+
+[node name="Spot1" type="Marker2D" parent="SpikeSpots" index="0"]
+position = Vector2(136, 127)
