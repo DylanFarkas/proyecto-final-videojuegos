@@ -13,7 +13,7 @@ extends Node2D
 @export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
-@export var max_rooms: int = 1
+@export var max_rooms: int = 3
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
 var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
@@ -405,15 +405,37 @@ func _place_random_chest() -> void:
 	chest_instance = chest_scene.instantiate()
 	add_child(chest_instance)
 
-	# posición aleatoria dentro de la sala
-	var margin := 32.0
-	var min_x := margin
-	var min_y := margin
-	var max_x := room_size.x - margin
-	var max_y := room_size.y - margin
+	# -----------------------------
+	# 1) Intentar usar ChestSpots
+	# -----------------------------
+	var final_pos: Vector2
+	var used_spot := false
 
-	var lx := rng.randf_range(min_x, max_x)
-	var ly := rng.randf_range(min_y, max_y)
-	var global_pos := chosen_room.global_position + Vector2(lx, ly)
+	var chest_spots_node := chosen_room.get_node_or_null("ChestSpots")
+	if chest_spots_node:
+		var spots: Array = []
+		for c in chest_spots_node.get_children():
+			if c is Marker2D:
+				spots.append(c)
 
-	chest_instance.global_position = global_pos
+		if not spots.is_empty():
+			var spot: Marker2D = spots[rng.randi_range(0, spots.size() - 1)]
+			final_pos = spot.global_position
+			used_spot = true
+
+	# ---------------------------------
+	# 2) Si no hay spots -> posición random
+	# ---------------------------------
+	if not used_spot:
+		var margin := 32.0
+		var min_x := margin
+		var min_y := margin
+		var max_x := room_size.x - margin
+		var max_y := room_size.y - margin
+
+		var lx := rng.randf_range(min_x, max_x)
+		var ly := rng.randf_range(min_y, max_y)
+		final_pos = chosen_room.global_position + Vector2(lx, ly)
+		print("Sala sin ChestSpots (o vacíos), usando posición aleatoria en ", chosen_pos)
+
+	chest_instance.global_position = final_pos
