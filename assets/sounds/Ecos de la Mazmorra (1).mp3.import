@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ceiclmqveawub"
+path="res://.godot/imported/Ecos de la Mazmorra (1).mp3-c4dd715f23ee5cbb4d02dfc0541455bf.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/Ecos de la Mazmorra (1).mp3"
+dest_files=["res://.godot/imported/Ecos de la Mazmorra (1).mp3-c4dd715f23ee5cbb4d02dfc0541455bf.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
