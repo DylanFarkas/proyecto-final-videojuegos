@@ -18,8 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://c314sltxa2tyy" path="res://assets/sprites/level/walls/valla-completa.png" id="15_wqtfv"]
 [ext_resource type="Texture2D" uid="uid://cdt2hgyiqa6l1" path="res://assets/sprites/level/walls/valla.png" id="16_ffh7f"]
 [ext_resource type="Script" uid="uid://qtai8y3pbjsx" path="res://scenes/environment/Door.gd" id="18_kv40q"]
-[ext_resource type="AudioStream" uid="uid://k248asflwnnc" path="res://music/Sonido de abrir.mp3" id="19_0kg07"]
-[ext_resource type="AudioStream" uid="uid://c2uowhfwj5rll" path="res://music/Sonido de cerrar.mp3" id="20_ih616"]
+[ext_resource type="AudioStream" uid="uid://k248asflwnnc" path="res://assets/sounds/Sonido de abrir.mp3" id="19_0kg07"]
+[ext_resource type="AudioStream" uid="uid://c2uowhfwj5rll" path="res://assets/sounds/Sonido de cerrar.mp3" id="20_ih616"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5hbeb"]
 texture = ExtResource("1_3ghvb")

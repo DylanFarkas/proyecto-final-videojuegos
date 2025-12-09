@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dlveotl78j65o" path="res://scenes/weapons/weapon1/gun.gd" id="1_og67c"]
 [ext_resource type="Texture2D" uid="uid://culryxtang6px" path="res://assets/sprites/level/Guns/Armas.png" id="1_x77fm"]
-[ext_resource type="AudioStream" uid="uid://b0p75an4d0vl3" path="res://music/sonido disparo.mp3" id="3_t3mji"]
+[ext_resource type="AudioStream" uid="uid://b0p75an4d0vl3" path="res://assets/sounds/sonido disparo.mp3" id="3_t3mji"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_og67c"]
 atlas = ExtResource("1_x77fm")
