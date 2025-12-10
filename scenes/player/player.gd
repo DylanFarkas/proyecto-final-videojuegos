@@ -17,6 +17,7 @@ var active_weapon_slot: int = 0          # índice del arma activa
 var current_weapon: Node = null          # alias al arma activa
 
 @export var damage_number_scene: PackedScene
+var coins: int = 0
 
 func _ready() -> void:
 	add_to_group("player")
@@ -200,5 +201,12 @@ func _spawn_damage_number(amount: int) -> void:
 	if dmg.has_method("show_value"):
 		dmg.show_value(amount)
 
-	# Si lo quieres más pequeño
 	dmg.scale = Vector2(0.6, 0.6)
+
+func add_coins(amount: int) -> void:
+	coins += amount
+	print("Coins:", coins)
+
+	# cuando el HUD tenga contador de monedas
+	if hud and hud.has_method("update_coins"):
+		hud.update_coins(coins)

@@ -21,6 +21,10 @@ var can_damage: bool = true
 @export var damage_number_scene: PackedScene 
 var flashing: bool = false
 
+@export var coin_scene: PackedScene  
+@export var min_coins: int = 1
+@export var max_coins: int = 3
+
 func _ready():
 	hp = max_hp
 	add_to_group("enemy")
@@ -110,9 +114,11 @@ func take_damage(amount: int = 1) -> void:
 		die()
 
 func die() -> void:
+	# Soltar monedas
+	_drop_coins()
 	died.emit()
 	queue_free()
-	
+
 # --- Número flotante ---
 
 func _spawn_damage_number(amount: int) -> void:
@@ -142,3 +148,21 @@ func _hit_flash() -> void:
 
 	animated_sprite.modulate = original_modulate
 	flashing = false
+
+func _drop_coins() -> void:
+	if coin_scene == null:
+		return
+
+	var count := randi_range(min_coins, max_coins)
+
+	for i in range(count):
+		var coin := coin_scene.instantiate()
+		get_tree().current_scene.add_child(coin)
+
+		# pequeña dispersión aleatoria alrededor del enemigo
+		var offset := Vector2(
+			randf_range(-8.0, 8.0),
+			randf_range(-8.0, 8.0)
+		)
+
+		coin.global_position = global_position + offset

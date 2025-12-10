@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://ccqqe804g38x1"]
+[gd_scene load_steps=8 format=3 uid="uid://ccqqe804g38x1"]
 
 [ext_resource type="Script" uid="uid://ceupni1nke8ca" path="res://scenes/hud/hud.gd" id="1_oo0fn"]
 [ext_resource type="Texture2D" uid="uid://ij0wqxshv57x" path="res://assets/sprites/hud/heart_full.png" id="2_5ysmq"]
 [ext_resource type="Texture2D" uid="uid://drijadtx57we4" path="res://assets/sprites/hud/heart_half.png" id="3_6fi6k"]
 [ext_resource type="Texture2D" uid="uid://bgqtoor0t3l3h" path="res://assets/sprites/hud/heart_empty.png" id="4_uo2fv"]
+[ext_resource type="Texture2D" uid="uid://cansu1gsx8kgs" path="res://assets/sprites/level/coin/coin.png" id="5_n56i7"]
 [ext_resource type="Script" uid="uid://cy4p8eyhfemeq" path="res://scenes/hud/Minimap.gd" id="5_uo2fv"]
 [ext_resource type="Texture2D" uid="uid://p5nhqujiiqw1" path="res://assets/sprites/level/Guns/marco-arma.png" id="6_v7mo4"]
 
@@ -45,9 +46,21 @@ layout_mode = 2
 texture = ExtResource("2_5ysmq")
 
 [node name="Spacer" type="Control" parent="MarginContainer/HBoxRoot"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="CoinsContainer" type="HBoxContainer" parent="MarginContainer/HBoxRoot"]
+layout_mode = 2
+
+[node name="CoinIcon" type="TextureRect" parent="MarginContainer/HBoxRoot/CoinsContainer"]
+layout_mode = 2
+texture = ExtResource("5_n56i7")
+stretch_mode = 5
+
+[node name="CoinLabel" type="Label" parent="MarginContainer/HBoxRoot/CoinsContainer"]
+layout_mode = 2
+text = "0
+"
 
 [node name="Minimap" type="Control" parent="."]
 layout_mode = 3
