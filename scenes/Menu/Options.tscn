@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://c32u0w7t6sehx"]
+
+[ext_resource type="Script" uid="uid://bwsx586cdcj1r" path="res://scenes/Menu/menu.gd" id="1_ndem3"]
+[ext_resource type="Texture2D" uid="uid://e26ol82toq4l" path="res://assets/imagenes/Fondo Mmenu.png" id="2_fv7ds"]
+
+[sub_resource type="FontVariation" id="FontVariation_6wcv6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2qf5f"]
+bg_color = Color(0.6257302, 0.4293998, 0.13847369, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4e4iy"]
+bg_color = Color(0.627237, 0.43850926, 0.10570701, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fi74l"]
+bg_color = Color(0.604839, 0.38121557, 0.07855805, 1)
+border_color = Color(0.7809034, 0.7742051, 0.99491996, 1)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ndem3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.17223033, 0.16311818, 0.12077307, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fv7ds")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -46.0
+offset_right = 59.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_6wcv6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_2qf5f")
+text = "JUGAR"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_6wcv6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_4e4iy")
+text = "OPCIONES"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_6wcv6")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_fi74l")
+text = "SALIR
+"
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
