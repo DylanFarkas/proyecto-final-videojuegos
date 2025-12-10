@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://cxo4ndhsh6gsb"]
 
-[ext_resource type="Script" uid="uid://c64d13gjvqrml" path="res://scenes/weapons/weapon1/node_2d.gd" id="1_6wxff"]
+[ext_resource type="Script" uid="uid://woamsrty6uwl" path="res://scenes/weapons/weapon2/bullet_2.gd" id="1_rfdwp"]
 [ext_resource type="Texture2D" uid="uid://ck68jj325nr3u" path="res://assets/sprites/level/Guns/Disparo lacer.png" id="2_rfdwp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xclku"]
 size = Vector2(32, 11)
 
-[node name="Bullet" type="Node2D"]
+[node name="Bullet2" type="Node2D"]
 position = Vector2(4, 0)
-script = ExtResource("1_6wxff")
+script = ExtResource("1_rfdwp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(3, 0)

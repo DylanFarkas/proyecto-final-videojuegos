@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://mjqpo6fw0g4g"]
 
-[ext_resource type="Script" uid="uid://c41avysxt7esh" path="res://scenes/enemies/enemy.gd" id="1_davfx"]
+[ext_resource type="Script" uid="uid://dusjeka1m3mty" path="res://scenes/enemies/enemy_2.gd" id="1_e2a2s"]
 [ext_resource type="PackedScene" uid="uid://kshmom6swwnj" path="res://scenes/weapons/damagenumber/damage_number.tscn" id="2_n8gii"]
 [ext_resource type="PackedScene" uid="uid://dn2378mnlqx24" path="res://scenes/coin/coin.tscn" id="3_776yi"]
 [ext_resource type="Texture2D" uid="uid://cct1o804cxel3" path="res://assets/sprites/enemies/enemigodragon.png" id="4_davfx"]
@@ -121,7 +121,7 @@ size = Vector2(23, 28)
 size = Vector2(23, 28)
 
 [node name="Enemy2" type="CharacterBody2D" groups=["enemy"]]
-script = ExtResource("1_davfx")
+script = ExtResource("1_e2a2s")
 damage_number_scene = ExtResource("2_n8gii")
 coin_scene = ExtResource("3_776yi")
 

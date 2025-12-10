@@ -10,7 +10,7 @@ extends Node2D
 @export var room_scenes: Array[PackedScene] = []     # SOLO rooms: Room_1, Room_2, ...
 
 @export var player_scene: PackedScene
-@export var enemy_scene : PackedScene
+@export var enemy_scenes: Array[PackedScene] = []
 
 @export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
@@ -207,7 +207,7 @@ func _spawn_enemies_after_delay(room: Node2D, pos: Vector2i) -> void:
 # ========================
 
 func _spawn_enemies_all_rooms():
-	if enemy_scene == null:
+	if enemy_scenes.is_empty():
 		return
 
 	var total_spawned := 0
@@ -227,10 +227,8 @@ func _spawn_enemies_all_rooms():
 		total_spawned += spawned
 
 
-func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int:
-	if enemy_scene == null:
-		return 0
 
+func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int:
 	var spawned := 0
 
 	var margin := 16
@@ -240,21 +238,21 @@ func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int
 	var max_y := room_size.y - margin
 
 	for i in range(amount):
-		var enemy = enemy_scene.instantiate()
+		var scene := _random_enemy_scene()
+		if scene == null:
+			continue
+
+		var enemy = scene.instantiate()
 		if enemy == null:
 			continue
 
-		# MUY IMPORTANTE: agregarlo directamente al Game
 		add_child(enemy)
 
-		# posición local dentro de room convertida a global
 		var lx = rng.randf_range(min_x, max_x)
 		var ly = rng.randf_range(min_y, max_y)
 		var global_pos := room.global_position + Vector2(lx, ly)
-
 		enemy.global_position = global_pos
 
-		# asegurar visibilidad
 		if enemy is CanvasItem:
 			enemy.z_index = 50
 
@@ -262,7 +260,6 @@ func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int
 		spawned += 1
 
 	return spawned
-
 
 func _register_enemy(room_pos: Vector2i, enemy: Node2D) -> void:
 	if not enemies_by_room.has(room_pos):
@@ -323,6 +320,11 @@ func _random_room_scene() -> PackedScene:
 	var idx := rng.randi_range(0, room_scenes.size() - 1)
 	return room_scenes[idx]
 
+func _random_enemy_scene() -> PackedScene:
+	if enemy_scenes.is_empty():
+		return null
+	var idx := rng.randi_range(0, enemy_scenes.size() - 1)
+	return enemy_scenes[idx]
 
 func _random_direction() -> Vector2i:
 	var dirs := [
