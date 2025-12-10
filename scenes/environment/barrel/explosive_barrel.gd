@@ -3,14 +3,15 @@ extends StaticBody2D
 @export var explosion_radius: float = 64.0
 @export var explosion_damage: int = 4
 
-@export var idle_texture: Texture2D        # barril normal
-@export var damaged_texture: Texture2D     # barril roto
-@export var explosion_texture: Texture2D   # opcional, sprite de explosión
-@export var explosion_scene: PackedScene   # opcional, escena Explosion.tscn
+@export var idle_texture: Texture2D
+@export var damaged_texture: Texture2D
+@export var explosion_texture: Texture2D
+@export var explosion_scene: PackedScene
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var explosion_sound: AudioStreamPlayer = $ExplosionSound   # <--- AUDIO
 
-@export var explosion_scale := Vector2(0.09, 0.09)  # 1024 → ~64 px
+@export var explosion_scale := Vector2(0.09, 0.09)
 var idle_scale := Vector2.ONE
 
 var is_damaged := false
@@ -19,7 +20,7 @@ var exploding := false
 func _ready() -> void:
 	if idle_texture:
 		sprite.texture = idle_texture
-	idle_scale = sprite.scale  
+	idle_scale = sprite.scale
 	add_to_group("barrel")
 
 
@@ -27,9 +28,9 @@ func take_damage(amount: int = 1) -> void:
 	if exploding:
 		return
 
-	# Primer golpe → solo se marca como dañado
 	if not is_damaged:
 		is_damaged = true
+		# Primer golpe → textura dañada
 		if damaged_texture:
 			sprite.texture = damaged_texture
 		return
@@ -41,14 +42,20 @@ func take_damage(amount: int = 1) -> void:
 func _explode() -> void:
 	exploding = true
 
+	# Reproducir sonido de explosión
+	if explosion_sound:
+		explosion_sound.play()
+
+	# Cambiar sprite a explosión
 	if explosion_texture:
 		sprite.texture = explosion_texture
-		sprite.scale = explosion_scale   # <-- aquí la encoges
+		sprite.scale = explosion_scale
 
 	_do_explosion_damage()
 
 	await get_tree().create_timer(0.15).timeout
 	queue_free()
+
 
 func _do_explosion_damage() -> void:
 	var space = get_world_2d().direct_space_state
