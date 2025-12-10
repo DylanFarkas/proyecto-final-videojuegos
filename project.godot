@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="proyecto-final-videojuegos"
-run/main_scene="uid://cp4g16hoa4wct"
+run/main_scene="uid://bcg2v0yaqu4je"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
