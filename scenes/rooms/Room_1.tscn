@@ -93,3 +93,11 @@ position = Vector2(234, 78)
 
 [node name="Spot1" type="Marker2D" parent="SpikeSpots" index="0"]
 position = Vector2(136, 127)
+
+[node name="BarrelSpots" type="Node2D" parent="." index="5"]
+
+[node name="Spot1" type="Marker2D" parent="BarrelSpots" index="0"]
+position = Vector2(200, 26)
+
+[node name="Spot2" type="Marker2D" parent="BarrelSpots" index="1"]
+position = Vector2(25, 103)

@@ -35,6 +35,10 @@ var chest_instance: Node2D = null
 @export var spike_spawn_chance: float = 0.5   # 0.0–1.0 probabilidad por spot
 @export var max_spikes_per_room: int = 3      # opcional, límite por room
 
+@export var barrel_scene: PackedScene
+@export var barrel_spawn_chance: float = 1  # 0.0–1.0
+@export var max_barrels_per_room: int = 2
+
 func _ready() -> void:
 	rng.randomize()
 	
@@ -43,9 +47,6 @@ func _ready() -> void:
 	
 	generate_dungeon()
 	spawn_player()
-
-
-
 
 # ========================
 #   GENERACIÓN DEL MAPA
@@ -117,6 +118,7 @@ func generate_dungeon() -> void:
 	_configure_all_exits()
 	_place_random_chest()
 	_spawn_spikes_in_rooms()
+	_spawn_barrels_in_rooms()
 
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
 
@@ -489,4 +491,46 @@ func _spawn_spikes_in_rooms() -> void:
 				var spike := spike_scene.instantiate()
 				add_child(spike)
 				spike.global_position = spot.global_position
+				spawned_in_room += 1
+				
+func _spawn_barrels_in_rooms() -> void:
+	if barrel_scene == null:
+		return
+
+	for pos in grid.keys():
+		var room: Node2D = grid[pos]
+		if room == null:
+			continue
+
+		# Excluir pasillos y sala inicial
+		if room.is_in_group("corridor"):
+			continue
+		if pos == Vector2i(0, 0):
+			continue
+
+		var spots_node := room.get_node_or_null("BarrelSpots")
+		if spots_node == null:
+			continue  # esta room no tiene spots de barril
+
+		var spots: Array[Marker2D] = []
+		for c in spots_node.get_children():
+			if c is Marker2D:
+				spots.append(c)
+
+		if spots.is_empty():
+			continue
+
+		spots.shuffle()
+
+		var spawned_in_room := 0
+
+		for spot in spots:
+			if spawned_in_room >= max_barrels_per_room:
+				break
+
+			# Probabilidad de que aparezca un barril en este spot
+			if rng.randf() <= barrel_spawn_chance:
+				var barrel := barrel_scene.instantiate()
+				add_child(barrel)
+				barrel.global_position = spot.global_position
 				spawned_in_room += 1

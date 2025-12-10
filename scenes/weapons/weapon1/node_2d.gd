@@ -28,20 +28,16 @@ func _process(delta: float) -> void:
 		has_collided = true
 		var collider = result[0].collider
 		print("Impacto con: ", collider.name)
-		
-		# Si es enemigo (grupo "enemy"), hacerle daño
-		if collider.is_in_group("enemy"):
-			if collider.has_method("take_damage"):
-				collider.take_damage(1)  # o el daño que quieras
-			else:
-				# fallback por si acaso
-				collider.queue_free()
-		
-		# Destruir la bala al impactar cualquier cosa
+
+		# Cualquier cosa con take_damage
+		if collider.has_method("take_damage"):
+			collider.take_damage(1)
+		# Si quieres mantener el fallback de enemy sin método:
+		elif collider.is_in_group("enemy"):
+			collider.queue_free()
+
 		queue_free()
 
-		# Destruir la bala al impactar cualquier cosa
-		queue_free()
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
