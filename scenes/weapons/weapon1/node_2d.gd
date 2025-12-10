@@ -1,27 +1,27 @@
 extends Node2D
+class_name Bullet   
 
 const SPEED := 300
 var has_collided := false
-var player : Node = null  # se asigna desde el arma
+var player: Node = null       
+
+var damage: int = 1          
 
 func _process(delta: float) -> void:
 	position += transform.x * SPEED * delta
 	
-	# Crear forma de colisión
 	var shape_rid = PhysicsServer2D.circle_shape_create()
 	PhysicsServer2D.shape_set_data(shape_rid, 6)
 	
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape_rid = shape_rid
 	query.collide_with_bodies = true
-	query.collision_mask = 0xFFFF  # detecta todos los cuerpos
+	query.collision_mask = 0xFFFF
 	query.transform = global_transform
 	
-	# Ignorar al Player
 	if player != null:
 		query.exclude = [player]
 	
-	# Intersectar con cuerpos
 	var result = get_world_2d().direct_space_state.intersect_shape(query)
 	
 	if result.size() > 0 and not has_collided:
@@ -29,10 +29,8 @@ func _process(delta: float) -> void:
 		var collider = result[0].collider
 		print("Impacto con: ", collider.name)
 
-		# Cualquier cosa con take_damage
 		if collider.has_method("take_damage"):
-			collider.take_damage(1)
-		# Si quieres mantener el fallback de enemy sin método:
+			collider.take_damage(damage)
 		elif collider.is_in_group("enemy"):
 			collider.queue_free()
 

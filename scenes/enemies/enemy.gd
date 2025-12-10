@@ -11,13 +11,22 @@ signal died
 @onready var hitbox: Area2D = $HitBox       # OJO: mismo nombre que el nodo en la escena
 @onready var attack_sound: AudioStreamPlayer = $Attacksound
 
-var hp: int = 1 
+@export var max_hp: int = 3
+var hp: int
 
 var player: Node2D = null
 var last_player_pos: Vector2 = Vector2.ZERO
-var can_damage: bool = true                 # para no pegar 60 veces por segundo
+var can_damage: bool = true   
+
+@export var damage_number_scene: PackedScene 
+var flashing: bool = false
+
+@export var coin_scene: PackedScene  
+@export var min_coins: int = 1
+@export var max_coins: int = 3
 
 func _ready():
+	hp = max_hp
 	add_to_group("enemy")
 	animated_sprite.play("attack")
 	call_deferred("_find_player")
@@ -97,9 +106,63 @@ func _start_attack_cooldown() -> void:
 
 func take_damage(amount: int = 1) -> void:
 	hp -= amount
+	
+	_spawn_damage_number(amount)
+	_hit_flash()
+	
 	if hp <= 0:
 		die()
 
 func die() -> void:
+	# Soltar monedas
+	_drop_coins()
 	died.emit()
 	queue_free()
+
+# --- Número flotante ---
+
+func _spawn_damage_number(amount: int) -> void:
+	if damage_number_scene == null:
+		return
+
+	var dmg := damage_number_scene.instantiate()
+	get_tree().current_scene.add_child(dmg)
+
+	dmg.global_position = global_position
+	if dmg.has_method("show_value"):
+		dmg.show_value(amount)
+
+# --- Flash de daño ---
+
+func _hit_flash() -> void:
+	if flashing or animated_sprite == null:
+		return
+
+	flashing = true
+	var original_modulate := animated_sprite.modulate
+
+	# rojizo para indicar golpe
+	animated_sprite.modulate = Color(1, 0.4, 0.4)
+
+	await get_tree().create_timer(0.08).timeout
+
+	animated_sprite.modulate = original_modulate
+	flashing = false
+
+func _drop_coins() -> void:
+	if coin_scene == null:
+		return
+
+	var count := randi_range(min_coins, max_coins)
+
+	for i in range(count):
+		var coin := coin_scene.instantiate()
+		get_tree().current_scene.add_child(coin)
+
+		# pequeña dispersión aleatoria alrededor del enemigo
+		var offset := Vector2(
+			randf_range(-8.0, 8.0),
+			randf_range(-8.0, 8.0)
+		)
+
+		coin.global_position = global_position + offset

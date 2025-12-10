@@ -6,33 +6,29 @@ const BULLET = preload("res://scenes/weapons/weapon1/node_2d.tscn")
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var shoot_sound: AudioStreamPlayer = $ShootSound
 
+@export var bullet_damage: int = 1   # 🔹 daño del arma
+
 var shoot_cooldown := 0.2
 var shoot_timer := 0.0
-
-var active: bool = true   # <- NUEVO
+var active: bool = true
 
 func set_active(value: bool) -> void:
 	active = value
-	visible = value        # si quieres que la otra desaparezca visualmente
+	visible = value
 
 func _process(delta: float) -> void:
 	if not active:
-		return  # si no está activa, no rota ni dispara
+		return
 
 	look_at(get_global_mouse_position())
-
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	scale.y = -1 if rotation_degrees > 90 and rotation_degrees < 270 else 1
 
-	# Actualizar timer siempre
 	shoot_timer -= delta
 
-	# 1) Disparo instantáneo al hacer clic
 	if Input.is_action_just_pressed("shoot"):
 		shoot_bullet()
 		shoot_timer = shoot_cooldown
-
-	# 2) Disparo continuo mientras se mantiene presionado
 	elif Input.is_action_pressed("shoot"):
 		if shoot_timer <= 0.0:
 			shoot_bullet()
@@ -51,6 +47,9 @@ func shoot_bullet():
 	bullet_instance.global_position = muzzle.global_position
 	bullet_instance.rotation = rotation
 	bullet_instance.player = player
-	get_tree().root.add_child(bullet_instance)
 
+	# Daño del arma → bala
+	bullet_instance.damage = bullet_damage  # define @export var bullet_damage:int = 1 en gun.gd
+
+	get_tree().root.add_child(bullet_instance)
 	shoot_sound.play()

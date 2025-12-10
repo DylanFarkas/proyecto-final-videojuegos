@@ -37,7 +37,7 @@ var chest_instance: Node2D = null
 
 @export var barrel_scene: PackedScene
 @export var barrel_spawn_chance: float = 1  # 0.0–1.0
-@export var max_barrels_per_room: int = 2
+@export var max_barrels_per_room: int = 4
 
 func _ready() -> void:
 	rng.randomize()

@@ -16,6 +16,8 @@ var weapons: Array[Node] = [null, null]   # slot 0 y 1
 var active_weapon_slot: int = 0          # índice del arma activa
 var current_weapon: Node = null          # alias al arma activa
 
+@export var damage_number_scene: PackedScene
+var coins: int = 0
 
 func _ready() -> void:
 	add_to_group("player")
@@ -75,6 +77,9 @@ func update_animation(state: String) -> void:
 # -------- DAÑO / VIDA --------
 
 func take_damage(amount: int = 1) -> void:
+	if current_hp <= 0:
+		return
+
 	current_hp -= amount
 	if current_hp < 0:
 		current_hp = 0
@@ -82,8 +87,13 @@ func take_damage(amount: int = 1) -> void:
 	if hud and hud.has_method("update_health"):
 		hud.update_health(current_hp, max_hp)
 
+	_flash_damage()
+	_spawn_damage_number(amount)
+
+
 	if current_hp <= 0:
 		die()
+
 
 
 func heal(amount: int = 1) -> void:
@@ -172,3 +182,31 @@ func pickup_weapon(weapon_scene: PackedScene, weapon_name: String) -> void:
 func _update_hud_weapons():
 	if hud and hud.has_method("update_weapon_slots"):
 		hud.update_weapon_slots(weapons, active_weapon_slot)
+		
+func _flash_damage() -> void:
+	# hace un parpadeo blanco rápido
+	var tween := create_tween()
+	tween.tween_property(animated_sprite, "modulate", Color(1, 0.3, 0.3), 0.1)
+	tween.tween_property(animated_sprite, "modulate", Color(1, 1, 1), 0.1)
+
+func _spawn_damage_number(amount: int) -> void:
+	if damage_number_scene == null:
+		return
+
+	var dmg := damage_number_scene.instantiate()
+	get_tree().current_scene.add_child(dmg)
+
+	dmg.global_position = global_position + Vector2(0, -10)
+
+	if dmg.has_method("show_value"):
+		dmg.show_value(amount)
+
+	dmg.scale = Vector2(0.6, 0.6)
+
+func add_coins(amount: int) -> void:
+	coins += amount
+	print("Coins:", coins)
+
+	# cuando el HUD tenga contador de monedas
+	if hud and hud.has_method("update_coins"):
+		hud.update_coins(coins)

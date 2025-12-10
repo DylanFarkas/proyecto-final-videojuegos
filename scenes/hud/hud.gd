@@ -4,19 +4,38 @@ extends CanvasLayer
 @export var heart_half: Texture2D
 @export var heart_empty: Texture2D
 
+# --- MONEDAS ---
+@export var coin_icon: Texture2D
+
 var hearts_count: int = 0
+var hearts: Array[TextureRect] = []
 
 @onready var hearts_container := $MarginContainer/HBoxRoot/HeartsContainer
 @onready var minimap: Minimap = $Minimap
 
-# Nuevos paths (ojo con la ruta)
+# HUD armas
 @onready var frame0: TextureRect = $WeaponHUD/WeaponContainer/Frame0
 @onready var frame1: TextureRect = $WeaponHUD/WeaponContainer/Frame1
 @onready var slot0: TextureRect = $WeaponHUD/WeaponContainer/Frame0/WeaponSlot0
 @onready var slot1: TextureRect = $WeaponHUD/WeaponContainer/Frame1/WeaponSlot1
 
+# HUD monedas
+@onready var coin_icon_node: TextureRect = $MarginContainer/HBoxRoot/CoinsContainer/CoinIcon
+@onready var coin_label: Label = $MarginContainer/HBoxRoot/CoinsContainer/CoinLabel
+var coins: int = 0
+
+
+func _ready() -> void:
+	# Icono de coin
+	if coin_icon and coin_icon_node:
+		coin_icon_node.texture = coin_icon
+
+	if coin_label:
+		coin_label.text = str(coins)
+
+
 # -----------------------------------
-#   MINIMAPA + CORAZONES (igual)
+#   MINIMAPA + CORAZONES
 # -----------------------------------
 func init_minimap(grid: Dictionary, start_pos: Vector2i) -> void:
 	if minimap:
@@ -30,8 +49,6 @@ func setup(max_hp: int) -> void:
 	hearts_count = int(ceil(max_hp / 2.0))
 	_create_hearts()
 	update_health(max_hp, max_hp)
-
-var hearts: Array[TextureRect] = []
 
 func update_health(current_hp: int, max_hp: int) -> void:
 	if hearts_count == 0:
@@ -63,14 +80,14 @@ func _create_hearts() -> void:
 		hearts_container.add_child(heart)
 		hearts.append(heart)
 
-# -----------------------------------wwwww
+
+# -----------------------------------
 #          HUD DE ARMAS
 # -----------------------------------
 
 @export var weapon_icons := {
 	"Gun": preload("res://assets/sprites/level/Guns/Armas.png"),
 	"Gun2": preload("res://assets/sprites/level/Guns/arma lacer.png"),
-	
 }
 
 func update_weapon_slots(weapons: Array, active_slot: int) -> void:
@@ -89,3 +106,13 @@ func update_weapon_slots(weapons: Array, active_slot: int) -> void:
 	# Resaltar marco activo
 	frame0.modulate = Color.WHITE if active_slot == 0 else Color(0.6, 0.6, 0.6)
 	frame1.modulate = Color.WHITE if active_slot == 1 else Color(0.6, 0.6, 0.6)
+
+
+# -----------------------------------
+#          HUD MONEDAS
+# -----------------------------------
+
+func update_coins(value: int) -> void:
+	coins = value
+	if coin_label:
+		coin_label.text = str(coins)
