@@ -2,6 +2,8 @@ extends Node2D
 
 
 @onready var music_game: AudioStreamPlayer = $MusicGame
+@onready var pause_menu: Control = $PauseMenu
+
 @export var start_room_scene: PackedScene            # Room_Start.tscn
 @export var vertical_corridor_scene: PackedScene     # pasillo_vertical.tscn
 @export var horizontal_corridor_scene: PackedScene   # pasillo_horizontal.tscn
@@ -41,6 +43,8 @@ func _ready() -> void:
 	
 	generate_dungeon()
 	spawn_player()
+
+
 
 
 # ========================
