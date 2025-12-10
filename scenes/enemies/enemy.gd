@@ -16,7 +16,10 @@ var hp: int
 
 var player: Node2D = null
 var last_player_pos: Vector2 = Vector2.ZERO
-var can_damage: bool = true                 # para no pegar 60 veces por segundo
+var can_damage: bool = true   
+
+@export var damage_number_scene: PackedScene 
+var flashing: bool = false
 
 func _ready():
 	hp = max_hp
@@ -99,9 +102,43 @@ func _start_attack_cooldown() -> void:
 
 func take_damage(amount: int = 1) -> void:
 	hp -= amount
+	
+	_spawn_damage_number(amount)
+	_hit_flash()
+	
 	if hp <= 0:
 		die()
 
 func die() -> void:
 	died.emit()
 	queue_free()
+	
+# --- Número flotante ---
+
+func _spawn_damage_number(amount: int) -> void:
+	if damage_number_scene == null:
+		return
+
+	var dmg := damage_number_scene.instantiate()
+	get_tree().current_scene.add_child(dmg)
+
+	dmg.global_position = global_position
+	if dmg.has_method("show_value"):
+		dmg.show_value(amount)
+
+# --- Flash de daño ---
+
+func _hit_flash() -> void:
+	if flashing or animated_sprite == null:
+		return
+
+	flashing = true
+	var original_modulate := animated_sprite.modulate
+
+	# rojizo para indicar golpe
+	animated_sprite.modulate = Color(1, 0.4, 0.4)
+
+	await get_tree().create_timer(0.08).timeout
+
+	animated_sprite.modulate = original_modulate
+	flashing = false

@@ -44,15 +44,12 @@ func _process(delta: float) -> void:
 
 func shoot_bullet():
 	var bullet_instance = BULLET.instantiate()
-
-	# Posición / rotación
 	bullet_instance.global_position = muzzle.global_position
 	bullet_instance.rotation = rotation
 	bullet_instance.player = player
 
-	# 🔹 Pasar daño del arma a la bala
-	bullet_instance.damage = bullet_damage
-
+	# Daño del arma → bala
+	bullet_instance.damage = bullet_damage  # define @export var bullet_damage:int = 1 en gun.gd
 
 	get_tree().root.add_child(bullet_instance)
 	shoot_sound.play()

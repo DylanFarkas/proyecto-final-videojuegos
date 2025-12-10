@@ -1,6 +1,7 @@
-[gd_scene load_steps=36 format=3 uid="uid://r7e58bh1yshp"]
+[gd_scene load_steps=37 format=3 uid="uid://r7e58bh1yshp"]
 
 [ext_resource type="Script" uid="uid://bkgrf20n7wu7c" path="res://scenes/player/player.gd" id="1_g2els"]
+[ext_resource type="PackedScene" uid="uid://kshmom6swwnj" path="res://scenes/weapons/damagenumber/damage_number.tscn" id="2_75vfm"]
 [ext_resource type="Texture2D" uid="uid://cbkhlle0h3iyf" path="res://assets/sprites/player/pixilart-sprite idle.png" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://bwmk6f7ddtare" path="res://assets/sprites/player/pixilart-sprite derecha.png" id="3_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://dkhdbtnelhx65" path="res://assets/sprites/player/pixilart-sprite izquierda.png" id="4_tuyoq"]
@@ -251,6 +252,7 @@ size = Vector2(16, 21)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 position = Vector2(17, 43)
 script = ExtResource("1_g2els")
+damage_number_scene = ExtResource("2_75vfm")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
