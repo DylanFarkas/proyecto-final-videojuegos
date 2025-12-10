@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c32u0w7t6sehx"]
 
-[ext_resource type="Script" uid="uid://bwsx586cdcj1r" path="res://scenes/Menu/menu.gd" id="1_ndem3"]
+[ext_resource type="Script" uid="uid://cbai0e22fj2p8" path="res://scenes/Menu/options.gd" id="1_ndem3"]
 [ext_resource type="Texture2D" uid="uid://e26ol82toq4l" path="res://assets/imagenes/Fondo Mmenu.png" id="2_fv7ds"]
 
 [sub_resource type="FontVariation" id="FontVariation_6wcv6"]
@@ -15,7 +15,7 @@ bg_color = Color(0.627237, 0.43850926, 0.10570701, 1)
 bg_color = Color(0.604839, 0.38121557, 0.07855805, 1)
 border_color = Color(0.7809034, 0.7742051, 0.99491996, 1)
 
-[node name="Menu" type="Control"]
+[node name="Options" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,28 +58,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="Play" type="Button" parent="VBoxContainer"]
+[node name="volumen" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_6wcv6")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_2qf5f")
-text = "JUGAR"
+text = "VOLUMEN
+"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
+[node name="resolution" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_6wcv6")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_4e4iy")
-text = "OPCIONES"
+text = "RESOLUCION
+"
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="back" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_6wcv6")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_fi74l")
-text = "SALIR
-"
+text = "ATRAS"
 
-[connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/volumen" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/resolution" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_quit_pressed"]
