@@ -69,7 +69,7 @@ func _create_hearts() -> void:
 
 @export var weapon_icons := {
 	"Gun": preload("res://assets/sprites/level/Guns/Armas.png"),
-	"Gun2": preload("res://assets/sprites/level/Guns/pixil-frame-0.png"),
+	"Gun2": preload("res://assets/sprites/level/Guns/arma lacer.png"),
 	
 }
 
