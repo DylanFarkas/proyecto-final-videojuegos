@@ -11,13 +11,15 @@ signal died
 @onready var hitbox: Area2D = $HitBox       # OJO: mismo nombre que el nodo en la escena
 @onready var attack_sound: AudioStreamPlayer = $Attacksound
 
-var hp: int = 1 
+@export var max_hp: int = 3
+var hp: int
 
 var player: Node2D = null
 var last_player_pos: Vector2 = Vector2.ZERO
 var can_damage: bool = true                 # para no pegar 60 veces por segundo
 
 func _ready():
+	hp = max_hp
 	add_to_group("enemy")
 	animated_sprite.play("attack")
 	call_deferred("_find_player")
