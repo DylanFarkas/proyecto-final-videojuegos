@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://chumn0xoptc00"]
+
+[ext_resource type="Script" uid="uid://ccvxuprxg4150" path="res://scenes/environment/barrel/explosive_barrel.gd" id="1_imnc5"]
+[ext_resource type="Texture2D" uid="uid://duf0xbabquv0" path="res://assets/sprites/level/barrel/barrel.png" id="1_iytie"]
+[ext_resource type="Texture2D" uid="uid://b3pu02cpb1wsb" path="res://assets/sprites/level/barrel/barrel-damaged.png" id="3_dknwu"]
+[ext_resource type="Texture2D" uid="uid://cat57l3smfu67" path="res://assets/sprites/level/barrel/explosion.png" id="4_0jbkc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imnc5"]
+size = Vector2(20, 26)
+
+[node name="ExplosiveBarrel" type="StaticBody2D"]
+script = ExtResource("1_imnc5")
+idle_texture = ExtResource("1_iytie")
+damaged_texture = ExtResource("3_dknwu")
+explosion_texture = ExtResource("4_0jbkc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_iytie")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_imnc5")

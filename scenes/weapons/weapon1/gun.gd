@@ -24,12 +24,17 @@ func _process(delta: float) -> void:
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	scale.y = -1 if rotation_degrees > 90 and rotation_degrees < 270 else 1
 
+	# Actualizar timer siempre
+	shoot_timer -= delta
+
+	# 1) Disparo instantáneo al hacer clic
 	if Input.is_action_just_pressed("shoot"):
 		shoot_bullet()
+		shoot_timer = shoot_cooldown
 
-	if Input.is_action_pressed("shoot"):
-		shoot_timer -= delta
-		if shoot_timer <= 0:
+	# 2) Disparo continuo mientras se mantiene presionado
+	elif Input.is_action_pressed("shoot"):
+		if shoot_timer <= 0.0:
 			shoot_bullet()
 			shoot_timer = shoot_cooldown
 
@@ -39,6 +44,7 @@ func _process(delta: float) -> void:
 		if animated_sprite.animation != "Idle_arma":
 			animated_sprite.play("Idle_arma")
 		shoot_timer = 0.0
+
 
 func shoot_bullet():
 	var bullet_instance = BULLET.instantiate()
