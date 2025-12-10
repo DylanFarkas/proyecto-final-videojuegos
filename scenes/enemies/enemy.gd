@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Enemy
+class_name Enemy2
 
 signal died
 

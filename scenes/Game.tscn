@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ihuqh26qg6py" path="res://scenes/rooms/Room_1.tscn" id="4_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://kd66r1hm25ur" path="res://scenes/rooms/Room_2.tscn" id="5_400sg"]
 [ext_resource type="PackedScene" uid="uid://r7e58bh1yshp" path="res://scenes/player/player.tscn" id="6_aug50"]
-[ext_resource type="PackedScene" uid="uid://b3fybqw6ocyx6" path="res://scenes/enemies/enemy.tscn" id="8_400sg"]
+[ext_resource type="PackedScene" uid="uid://mjqpo6fw0g4g" path="res://scenes/enemies/enemy2.tscn" id="8_2rd6h"]
 [ext_resource type="PackedScene" uid="uid://ccqqe804g38x1" path="res://scenes/hud/hud.tscn" id="9_g4kob"]
 [ext_resource type="PackedScene" uid="uid://dc1gos2dduj71" path="res://scenes/environment/chest/chest.tscn" id="10_3xj3m"]
 [ext_resource type="AudioStream" uid="uid://bx8lupfdy1qsv" path="res://assets/sounds/Mazmorras Pixeladas.mp3" id="10_qy1jj"]
@@ -21,7 +21,7 @@ vertical_corridor_scene = ExtResource("3_aug50")
 horizontal_corridor_scene = ExtResource("4_400sg")
 room_scenes = Array[PackedScene]([ExtResource("4_kiw3p"), ExtResource("5_400sg")])
 player_scene = ExtResource("6_aug50")
-enemy_scene = ExtResource("8_400sg")
+enemy_scene = ExtResource("8_2rd6h")
 hud_scene = ExtResource("9_g4kob")
 chest_scene = ExtResource("10_3xj3m")
 spike_scene = ExtResource("11_mcffj")
