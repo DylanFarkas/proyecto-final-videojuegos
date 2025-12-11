@@ -20,6 +20,7 @@ extends Node2D
 
 var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
 var enemies_by_room: Dictionary = {}             # Vector2i -> Array[Node2D]
+var combat_rooms: Array[Vector2i] = []           # TODAS las salas de combate (no pasillos, no start)
 
 var rng := RandomNumberGenerator.new()
 var grid: Dictionary = {}    # Vector2i -> Node2D (instancia de sala)
@@ -36,11 +37,10 @@ var chest_instance: Node2D = null
 @export var max_spikes_per_room: int = 3      # opcional, límite por room
 
 @export var barrel_scene: PackedScene
-@export var barrel_spawn_chance: float = 0.7  # 0.0–1.0
+@export var barrel_spawn_chance: float = 0.8  # 0.0–1.0
 @export var max_barrels_per_room: int = 4
 
-# 🔹 NUEVO: escena del menú principal
-@export var menu_scene: PackedScene
+@export var menu_scene: PackedScene           # escena del menú principal / victoria
 
 
 func _ready() -> void:
@@ -52,13 +52,15 @@ func _ready() -> void:
 	generate_dungeon()
 	spawn_player()
 
-
 # ========================
 #   GENERACIÓN DEL MAPA
 # ========================
 
 func generate_dungeon() -> void:
 	grid.clear()
+	rooms_with_enemies_spawned.clear()
+	enemies_by_room.clear()
+	combat_rooms.clear()
 
 	var start_pos := Vector2i(0, 0)
 	var start_room := _instance_room(start_room_scene, start_pos)
@@ -121,11 +123,27 @@ func generate_dungeon() -> void:
 		frontier.append(room_candidate)
 
 	_configure_all_exits()
+	_collect_combat_rooms()      # <- NUEVO: identificar todas las salas de combate
 	_place_random_chest()
 	_spawn_spikes_in_rooms()
 	_spawn_barrels_in_rooms()
 
 	print("Celdas en la grid (salas + pasillos): ", grid.size())
+	print("Salas de combate:", combat_rooms)
+
+
+func _collect_combat_rooms() -> void:
+	combat_rooms.clear()
+	for pos in grid.keys():
+		var room: Node2D = grid[pos]
+		if room == null:
+			continue
+		# excluir pasillos y sala inicial
+		if room.is_in_group("corridor"):
+			continue
+		if pos == Vector2i(0, 0):
+			continue
+		combat_rooms.append(pos)
 
 
 func _get_room_grid_pos(room: Node2D) -> Vector2i:
@@ -180,7 +198,7 @@ func on_player_use_door(current_room: Node2D, direction: Vector2i, body: Node) -
 
 func _lock_and_spawn_room(target_room: Node2D, target_pos: Vector2i) -> void:
 	# Pequeño delay para que el jugador termine de cruzar la puerta
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(1).timeout  # ajusta 0.25f si quieres más/menos tiempo
 
 	if not is_instance_valid(target_room):
 		return
@@ -230,6 +248,7 @@ func _spawn_enemies_all_rooms():
 
 		var spawned = spawn_enemies_in_room(cell, pos, enemies_per_room)
 		total_spawned += spawned
+
 
 
 func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int:
@@ -305,14 +324,6 @@ func _register_enemy(room_pos: Vector2i, enemy: Node2D) -> void:
 		enemy.connect("died", Callable(self, "_on_enemy_died").bind(room_pos, enemy))
 
 
-# 🔹 NUEVO: verificar si TODAS las salas están sin enemigos
-func _are_all_rooms_cleared() -> bool:
-	for pos in enemies_by_room.keys():
-		if not enemies_by_room[pos].is_empty():
-			return false
-	return true
-
-
 func _on_enemy_died(room_pos: Vector2i, enemy: Node2D) -> void:
 	if not enemies_by_room.has(room_pos):
 		return
@@ -325,13 +336,32 @@ func _on_enemy_died(room_pos: Vector2i, enemy: Node2D) -> void:
 			room.unlock_doors()
 		print("Sala ", room_pos, " limpia. Puertas abiertas.")
 
-		# 🔸 Si todas las salas están limpias, volvemos al menú
-		if _are_all_rooms_cleared():
-			print("Todas las salas limpias. Volviendo al menú...")
-			if menu_scene:
-				get_tree().change_scene_to_packed(menu_scene)
-			else:
-				push_warning("menu_scene no está asignado en Game.gd; no se puede cambiar de escena.")
+	_check_all_rooms_cleared()
+
+
+func _check_all_rooms_cleared() -> void:
+	# Condición de victoria:
+	# 1) Todas las salas de combate deben haber spawneado enemigos
+	# 2) En todas ellas, enemies_by_room[pos] debe estar vacío
+
+	for room_pos in combat_rooms:
+		# Si alguna sala aún no ha spawneado enemigos, no hemos terminado
+		if not rooms_with_enemies_spawned.get(room_pos, false):
+			return
+
+		var arr: Array = enemies_by_room.get(room_pos, [])
+		if arr.size() > 0:
+			return
+
+	print("Todas las salas de combate están limpias. Cambiando a menú...")
+
+	if menu_scene:
+		get_tree().change_scene_to_packed(menu_scene)
+	else:
+		if pause_menu:
+			pause_menu.visible = true
+			get_tree().paused = true
+			print("menu_scene no asignado, mostrando pause_menu como fallback.")
 
 
 func debug_list_enemies_after_spawn():
@@ -370,11 +400,13 @@ func _random_room_scene() -> PackedScene:
 	var idx := rng.randi_range(0, room_scenes.size() - 1)
 	return room_scenes[idx]
 
+
 func _random_enemy_scene() -> PackedScene:
 	if enemy_scenes.is_empty():
 		return null
 	var idx := rng.randi_range(0, enemy_scenes.size() - 1)
 	return enemy_scenes[idx]
+
 
 func _random_direction() -> Vector2i:
 	var dirs := [
@@ -422,7 +454,6 @@ func spawn_player() -> void:
 		if hud.has_method("init_minimap"):
 			hud.init_minimap(grid, Vector2i(0, 0))
 
-
 	# Pasar HUD al player
 	if hud and player.has_method("set_hud"):
 		player.set_hud(hud)
@@ -438,11 +469,7 @@ func spawn_player() -> void:
 		player.global_position = spawn.global_position
 	else:
 		player.global_position = start_room.global_position + room_size * 0.5
-
-
-# ========================
-#     COFRE / SPIKES / BARRILES
-# ========================
+		
 
 func _place_random_chest() -> void:
 	if chest_scene == null:
@@ -472,7 +499,9 @@ func _place_random_chest() -> void:
 	chest_instance = chest_scene.instantiate()
 	add_child(chest_instance)
 
+	# -----------------------------
 	# 1) Intentar usar ChestSpots
+	# -----------------------------
 	var final_pos: Vector2
 	var used_spot := false
 
@@ -488,7 +517,9 @@ func _place_random_chest() -> void:
 			final_pos = spot.global_position
 			used_spot = true
 
+	# ---------------------------------
 	# 2) Si no hay spots -> posición random
+	# ---------------------------------
 	if not used_spot:
 		var margin := 32.0
 		var min_x := margin
