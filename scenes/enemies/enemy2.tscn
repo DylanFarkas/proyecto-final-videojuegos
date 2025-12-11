@@ -118,7 +118,7 @@ animations = [{
 size = Vector2(23, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
-size = Vector2(23, 28)
+size = Vector2(33.5, 37)
 
 [node name="Enemy2" type="CharacterBody2D" groups=["enemy"]]
 script = ExtResource("1_e2a2s")
@@ -139,7 +139,7 @@ shape = SubResource("RectangleShape2D_jt03m")
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-1.5, 4)
+position = Vector2(-1, 2.5)
 shape = SubResource("RectangleShape2D_4ra3w")
 
 [node name="Attacksound" type="AudioStreamPlayer" parent="."]

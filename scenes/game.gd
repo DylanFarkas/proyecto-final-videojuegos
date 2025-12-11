@@ -15,7 +15,7 @@ extends Node2D
 @export var enemies_per_room: int = 4
 @export var enemy_spawn_delay: float = 3.0   # segundos de retraso antes de spawnear
 
-@export var max_rooms: int = 3
+@export var max_rooms: int = 7
 @export var room_size: Vector2 = Vector2(272, 272)   # 17 tiles * 16px
 
 var rooms_with_enemies_spawned: Dictionary = {}  # Vector2i -> bool
@@ -32,12 +32,16 @@ var hud: CanvasLayer = null
 var chest_instance: Node2D = null
 
 @export var spike_scene: PackedScene          # escena Spike.tscn
-@export var spike_spawn_chance: float = 0.5   # 0.0–1.0 probabilidad por spot
+@export var spike_spawn_chance: float = 0.8   # 0.0–1.0 probabilidad por spot
 @export var max_spikes_per_room: int = 3      # opcional, límite por room
 
 @export var barrel_scene: PackedScene
-@export var barrel_spawn_chance: float = 1  # 0.0–1.0
+@export var barrel_spawn_chance: float = 0.7  # 0.0–1.0
 @export var max_barrels_per_room: int = 4
+
+# 🔹 NUEVO: escena del menú principal
+@export var menu_scene: PackedScene
+
 
 func _ready() -> void:
 	rng.randomize()
@@ -47,6 +51,7 @@ func _ready() -> void:
 	
 	generate_dungeon()
 	spawn_player()
+
 
 # ========================
 #   GENERACIÓN DEL MAPA
@@ -175,7 +180,7 @@ func on_player_use_door(current_room: Node2D, direction: Vector2i, body: Node) -
 
 func _lock_and_spawn_room(target_room: Node2D, target_pos: Vector2i) -> void:
 	# Pequeño delay para que el jugador termine de cruzar la puerta
-	await get_tree().create_timer(1).timeout  # ajusta 0.25f si quieres más/menos tiempo
+	await get_tree().create_timer(1).timeout
 
 	if not is_instance_valid(target_room):
 		return
@@ -227,39 +232,68 @@ func _spawn_enemies_all_rooms():
 		total_spawned += spawned
 
 
-
 func spawn_enemies_in_room(room: Node2D, room_pos: Vector2i, amount: int) -> int:
+	if enemy_scenes.is_empty():
+		return 0
+
 	var spawned := 0
 
-	var margin := 16
+	var margin := 16.0
 	var min_x := margin
 	var min_y := margin
 	var max_x := room_size.x - margin
 	var max_y := room_size.y - margin
+
+	# ---- Setup de la consulta de colisiones ----
+	var space := get_world_2d().direct_space_state
+	var shape_rid := PhysicsServer2D.circle_shape_create()
+	PhysicsServer2D.shape_set_data(shape_rid, 10.0)  # radio del "hueco" que debe estar libre
 
 	for i in range(amount):
 		var scene := _random_enemy_scene()
 		if scene == null:
 			continue
 
-		var enemy = scene.instantiate()
-		if enemy == null:
-			continue
+		var attempts := 0
+		var placed := false
 
-		add_child(enemy)
+		while attempts < 15 and not placed:
+			attempts += 1
 
-		var lx = rng.randf_range(min_x, max_x)
-		var ly = rng.randf_range(min_y, max_y)
-		var global_pos := room.global_position + Vector2(lx, ly)
-		enemy.global_position = global_pos
+			var lx = rng.randf_range(min_x, max_x)
+			var ly = rng.randf_range(min_y, max_y)
+			var candidate := room.global_position + Vector2(lx, ly)
 
-		if enemy is CanvasItem:
-			enemy.z_index = 50
+			var params := PhysicsShapeQueryParameters2D.new()
+			params.shape_rid = shape_rid
+			params.transform = Transform2D(0.0, candidate)
+			params.collide_with_bodies = true
+			params.collide_with_areas = true
+			params.collision_mask = 0xFFFF  # revisa contra todo
 
-		_register_enemy(room_pos, enemy)
-		spawned += 1
+			# Si NO hay nada en ese circulito, es un buen sitio
+			var hits := space.intersect_shape(params)
+
+			if hits.is_empty():
+				var enemy = scene.instantiate()
+				if enemy == null:
+					break
+
+				add_child(enemy)
+				enemy.global_position = candidate
+
+				if enemy is CanvasItem:
+					enemy.z_index = 50
+
+				_register_enemy(room_pos, enemy)
+				spawned += 1
+				placed = true
+
+		if not placed:
+			print("No encontré lugar libre para enemigo en sala ", room_pos)
 
 	return spawned
+
 
 func _register_enemy(room_pos: Vector2i, enemy: Node2D) -> void:
 	if not enemies_by_room.has(room_pos):
@@ -269,6 +303,14 @@ func _register_enemy(room_pos: Vector2i, enemy: Node2D) -> void:
 	# Conectar señal de muerte si existe
 	if enemy.has_signal("died"):
 		enemy.connect("died", Callable(self, "_on_enemy_died").bind(room_pos, enemy))
+
+
+# 🔹 NUEVO: verificar si TODAS las salas están sin enemigos
+func _are_all_rooms_cleared() -> bool:
+	for pos in enemies_by_room.keys():
+		if not enemies_by_room[pos].is_empty():
+			return false
+	return true
 
 
 func _on_enemy_died(room_pos: Vector2i, enemy: Node2D) -> void:
@@ -282,6 +324,14 @@ func _on_enemy_died(room_pos: Vector2i, enemy: Node2D) -> void:
 		if room and room.has_method("unlock_doors"):
 			room.unlock_doors()
 		print("Sala ", room_pos, " limpia. Puertas abiertas.")
+
+		# 🔸 Si todas las salas están limpias, volvemos al menú
+		if _are_all_rooms_cleared():
+			print("Todas las salas limpias. Volviendo al menú...")
+			if menu_scene:
+				get_tree().change_scene_to_packed(menu_scene)
+			else:
+				push_warning("menu_scene no está asignado en Game.gd; no se puede cambiar de escena.")
 
 
 func debug_list_enemies_after_spawn():
@@ -388,7 +438,12 @@ func spawn_player() -> void:
 		player.global_position = spawn.global_position
 	else:
 		player.global_position = start_room.global_position + room_size * 0.5
-		
+
+
+# ========================
+#     COFRE / SPIKES / BARRILES
+# ========================
+
 func _place_random_chest() -> void:
 	if chest_scene == null:
 		return
@@ -417,9 +472,7 @@ func _place_random_chest() -> void:
 	chest_instance = chest_scene.instantiate()
 	add_child(chest_instance)
 
-	# -----------------------------
 	# 1) Intentar usar ChestSpots
-	# -----------------------------
 	var final_pos: Vector2
 	var used_spot := false
 
@@ -435,9 +488,7 @@ func _place_random_chest() -> void:
 			final_pos = spot.global_position
 			used_spot = true
 
-	# ---------------------------------
 	# 2) Si no hay spots -> posición random
-	# ---------------------------------
 	if not used_spot:
 		var margin := 32.0
 		var min_x := margin
@@ -452,6 +503,7 @@ func _place_random_chest() -> void:
 
 	chest_instance.global_position = final_pos
 	
+
 func _spawn_spikes_in_rooms() -> void:
 	if spike_scene == null:
 		return
@@ -495,6 +547,7 @@ func _spawn_spikes_in_rooms() -> void:
 				spike.global_position = spot.global_position
 				spawned_in_room += 1
 				
+
 func _spawn_barrels_in_rooms() -> void:
 	if barrel_scene == null:
 		return
