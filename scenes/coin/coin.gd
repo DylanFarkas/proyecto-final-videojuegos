@@ -2,7 +2,7 @@ extends Area2D
 
 @export var value: int = 1
 
-@onready var pickup_sound: AudioStreamPlayer = $PickupSound
+@onready var coin_sound: AudioStreamPlayer = $CoinSound
 
 func _ready() -> void:
 	monitoring = true
@@ -17,9 +17,9 @@ func _on_body_entered(body: Node) -> void:
 		if body.has_method("add_coins"):
 			body.add_coins(value)
 
-		if pickup_sound:
-			pickup_sound.play()
+		if coin_sound:
+			coin_sound.play()
 			# dejar que el sonido termine si quieres
-			await pickup_sound.finished
+			await get_tree().create_timer(0.1).timeout
 
 		queue_free()

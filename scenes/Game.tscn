@@ -30,4 +30,4 @@ barrel_scene = ExtResource("12_2rd6h")
 
 [node name="MusicGame" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_qy1jj")
-volume_db = -20.543
+volume_db = -15.407
